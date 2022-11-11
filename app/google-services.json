@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "424256943771",
+    "project_id": "event-master-6ba84",
+    "storage_bucket": "event-master-6ba84.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:424256943771:android:920112cd94e323daf1383e",
+        "android_client_info": {
+          "package_name": "com.vinodpatildev.eventmaster"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "424256943771-el3lp23kd58uq74n8pa1i0p76ks5plql.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAT9kYkQOKG92zUtn8K8__l_V3a2YrD52o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "424256943771-el3lp23kd58uq74n8pa1i0p76ks5plql.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
