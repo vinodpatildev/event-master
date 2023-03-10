@@ -1,7 +1,7 @@
-import mongoose  from 'mongoose';
+import mongoose from 'mongoose';
 import createHttpError from 'http-errors';
 import { RequestHandler } from "express";
-import EventModel from '../models/event';
+import EventModel, { EventState } from '../models/event';
 import { assertIsDefined } from '../util/assertIsDefined';
 
 export const getAllEvents: RequestHandler = async (req, res, next) => {
@@ -49,12 +49,16 @@ export const getEventByAdmin: RequestHandler = async (req, res, next) => {
 }
 interface CreateEventBody {
     title?: string,
-    text?: string
+    text?: string,
+    start?: Date,
+    end?: Date,
 }
 export const createEventByAdmin: RequestHandler<unknown, unknown, CreateEventBody, unknown> = async (req, res, next) => {
+    const authenticatedAdminId = req.session.userSessionId;
     const title = req.body.title;
     const text = req.body.text;
-    const authenticatedAdminId = req.session.userSessionId;
+    const start = req.body.start;
+    const end = req.body.end;
     try{
         assertIsDefined(authenticatedAdminId);
         if(!title){
@@ -63,12 +67,15 @@ export const createEventByAdmin: RequestHandler<unknown, unknown, CreateEventBod
         const newEvent = await EventModel.create({
             adminId: authenticatedAdminId,
             title:title,
-            text:text
+            text:text,
+            start:start,
+            end:end,
+            state: EventState.UPCOMING,
         });
         res.status(201).json(newEvent);
     }catch(error){
         next(error);
-    } 
+    }
 }
 
 interface UpdateEventParams {
@@ -76,14 +83,18 @@ interface UpdateEventParams {
 }
 
 interface UpdateEventBody{
-    title?:string,
-    text?:string
+    title?: string,
+    text: string,
+    start: Date,
+    end: Date,
 }
 
 export const updateEventByAdmin: RequestHandler<UpdateEventParams, unknown, UpdateEventBody, unknown> = async(req, res, next) => {
     const eventId = req.params.eventId;
     const newTitle = req.body.title;
     const newText = req.body.text;
+    const newStart = req.body.start;
+    const newEnd = req.body.end;
     const authenticatedAdminId = req.session.userSessionId;
     try{
         assertIsDefined(authenticatedAdminId);
@@ -105,6 +116,8 @@ export const updateEventByAdmin: RequestHandler<UpdateEventParams, unknown, Upda
 
         event.title = newTitle;
         event.text = newText;
+        event.start = newStart;
+        event.end = newEnd;
 
         const updatedEvent = await event.save();
 
