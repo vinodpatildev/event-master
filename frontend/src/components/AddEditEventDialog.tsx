@@ -25,7 +25,13 @@ const AddEditEventDialog = ({
   } = useForm<EventInput>({
     defaultValues: {
       title: eventToEdit?.title || "",
-      text: eventToEdit?.text || "",
+      department: eventToEdit?.department || "",
+      organizer: eventToEdit?.organizer || "",
+      description: eventToEdit?.description || "",
+      type: eventToEdit?.type || "",
+      event_link: eventToEdit?.event_link || "",
+      start : eventToEdit?.start || new Date(),
+      end : eventToEdit?.end || new Date(),
     },
   });
 
@@ -55,19 +61,55 @@ const AddEditEventDialog = ({
             name="title"
             label="Title"
             type="text"
-            placeholder="Title"
+            placeholder="Expert session on Career Opportunities and Skill Development"
             register={register}
             registerOptions={{ required: "Required" }}
             error={errors.title}
           />
           <TextInputField
-            name="text"
-            label="Text"
+            name="department"
+            label="Department"
+            type="text"
+            placeholder="Computer Department"
+            register={register}
+            registerOptions={{ required: "Required" }}
+            error={errors.department}
+          />
+          <TextInputField
+            name="organizer"
+            label="Organizer"
+            type="text"
+            placeholder="Mr.Vinod Patil"
+            register={register}
+            registerOptions={{ required: "Required" }}
+            error={errors.organizer}
+          />
+          <TextInputField
+            name="description"
+            label="Description"
             as="textarea"
             rows={5}
-            placeholder="Text"
-            error={errors.title}
+            placeholder="Expert session on Career Opportunities and Skill Development"
+            error={errors.description}
             register={register}
+          />
+          <TextInputField
+            name="type"
+            label="Type"
+            type="text"
+            placeholder="Expert Session"
+            register={register}
+            registerOptions={{ required: "Required" }}
+            error={errors.type}
+          />
+          <TextInputField
+            name="event_link"
+            label="Event Link"
+            type="text"
+            placeholder="https://raisoni.event.io/event_datails.php"
+            register={register}
+            registerOptions={{ required: "Required" }}
+            error={errors.event_link}
           />
           <TextInputField
             name="start"
@@ -83,7 +125,6 @@ const AddEditEventDialog = ({
             error={errors.start}
             register={register}
           />
-          
         </Form>
       </Modal.Body>
       <Modal.Footer>

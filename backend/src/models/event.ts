@@ -8,8 +8,12 @@ export enum EventState {
 
 const eventSchema = new Schema({
     adminId: { type: Schema.Types.ObjectId, required: true },
-    title: {type: String, required: true},
-    text: {type: String, required: true},
+    title: { type: String, required: true },
+    department: { type: String, required: true },
+    organizer: { type: String, required: true },
+    description: { type: String, required: true },
+    type: {type: String, required: true},
+    event_link: {type: String, required: true},
     start: { type: Date, required: true },
     end: { type: Date, required: true },
     state: {
@@ -17,7 +21,7 @@ const eventSchema = new Schema({
         enum: Object.values(EventState),
         default: EventState.UPCOMING,
         required: true,
-  },
+    },
 },{
     timestamps : true
 });

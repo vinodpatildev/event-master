@@ -49,14 +49,22 @@ export const getEventByAdmin: RequestHandler = async (req, res, next) => {
 }
 interface CreateEventBody {
     title?: string,
-    text?: string,
+    department?:string,
+    organizer?:string,
+    description?:string,
+    type?: string,
+    event_link?: string,
     start?: Date,
     end?: Date,
 }
 export const createEventByAdmin: RequestHandler<unknown, unknown, CreateEventBody, unknown> = async (req, res, next) => {
     const authenticatedAdminId = req.session.userSessionId;
     const title = req.body.title;
-    const text = req.body.text;
+    const department = req.body.department;
+    const organizer = req.body.organizer;
+    const description = req.body.description;
+    const type = req.body.type;
+    const event_link = req.body.event_link;
     const start = req.body.start;
     const end = req.body.end;
     try{
@@ -67,7 +75,11 @@ export const createEventByAdmin: RequestHandler<unknown, unknown, CreateEventBod
         const newEvent = await EventModel.create({
             adminId: authenticatedAdminId,
             title:title,
-            text:text,
+            department:department,
+            organizer:organizer,
+            description:description,
+            type:type,
+            event_link:event_link,
             start:start,
             end:end,
             state: EventState.UPCOMING,
@@ -84,18 +96,26 @@ interface UpdateEventParams {
 
 interface UpdateEventBody{
     title?: string,
-    text: string,
+    department:string,
+    organizer:string,
+    description:string,
+    type: string,
+    event_link: string,
     start: Date,
     end: Date,
 }
 
 export const updateEventByAdmin: RequestHandler<UpdateEventParams, unknown, UpdateEventBody, unknown> = async(req, res, next) => {
     const eventId = req.params.eventId;
+    const authenticatedAdminId = req.session.userSessionId;
     const newTitle = req.body.title;
-    const newText = req.body.text;
+    const newDepartment = req.body.department;
+    const newOrganizer = req.body.organizer;
+    const newDescription = req.body.description;
+    const newType = req.body.type;
+    const newEvent_link = req.body.event_link;
     const newStart = req.body.start;
     const newEnd = req.body.end;
-    const authenticatedAdminId = req.session.userSessionId;
     try{
         assertIsDefined(authenticatedAdminId);
         if(!mongoose.isValidObjectId(eventId)){
@@ -115,7 +135,11 @@ export const updateEventByAdmin: RequestHandler<UpdateEventParams, unknown, Upda
         }
 
         event.title = newTitle;
-        event.text = newText;
+        event.department = newDepartment;
+        event.organizer = newOrganizer;
+        event.description = newDescription;
+        event.type = newType;
+        event.event_link = newEvent_link;
         event.start = newStart;
         event.end = newEnd;
 

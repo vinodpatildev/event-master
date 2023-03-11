@@ -72,9 +72,13 @@ export async function fetchEvents(): Promise<Event[]> {
 
 export interface EventInput{
     title: string,
-    text?: string,
+    department:string,
+    organizer:string,
+    description:string,
+    type: string,
+    event_link: string,
     start: Date,
-    end: Date
+    end: Date,
 }
 
 export async function createEvent(event:EventInput) : Promise<Event>{

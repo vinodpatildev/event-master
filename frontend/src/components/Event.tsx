@@ -15,7 +15,13 @@ interface EventProps {
 const Event = ( { event, className, onDeleteEventClicked, onEventClicked }:EventProps ) => {
     const {
         title,
-        text,
+        department,
+        organizer,
+        description,
+        type,
+        event_link,
+        start,
+        end,
         createdAt,
         updatedAt
     } = event;
@@ -31,7 +37,7 @@ const Event = ( { event, className, onDeleteEventClicked, onEventClicked }:Event
         <Card className={`${styles.eventCard} ${className}`} onClick={() => onEventClicked(event)} >
             <Card.Body className={styles.cardBody}>
                 <Card.Title className={styleUtils.flexCenter}> {title}  <MdDelete className="text-muted ms-auto" onClick={(e) => { onDeleteEventClicked(event); e.stopPropagation(); }} /> </Card.Title>
-                <Card.Text className={styles.cardText}>  {text} </Card.Text>
+                <Card.Text className={styles.cardText}>  {description} </Card.Text>
             </Card.Body>
             <Card.Footer className="text-muted"> {createdUpdatedDateText} </Card.Footer>
         </Card>
