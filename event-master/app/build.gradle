@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.gms.google-services'
 }
 
@@ -13,7 +16,7 @@ android {
         targetSdk 32
         versionCode 1
         versionName "1.0"
-
+        buildConfigField("String","BACKEND_WEB_URL",BACKEND_WEB_URL)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -36,6 +39,11 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.preference:preference:1.2.0'
+    def lifecycle_version = "2.5.1"
+    def nav_version = "2.5.2"
+    def room_version = "2.4.3"
+    def dataStoreVersion = "1.0.0-alpha02"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
@@ -60,5 +68,58 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 
+    //Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+
+
+    //Gson
+    implementation 'com.google.code.gson:gson:2.9.1'
+
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    //MockWebServer
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.10.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
+
+    //okHttp
+    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+    //okHttp url connection to use JavaNetCookeJar
+    implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.10.0'
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
+    //liveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0"
+    // Annotation processor
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    //viewmodel coroutine support
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+
+    //Hilt Support
+    implementation "com.google.dagger:hilt-android:2.43.2"
+    kapt "com.google.dagger:hilt-compiler:2.43.2"
+
+
+    // Navigation Kotlin
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.13.2'
+    kapt 'com.github.bumptech.glide:compiler:4.13.2'
+
+    //Room
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:2.4.3"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    //DataStore
+    // DataStore
+    implementation "androidx.datastore:datastore-preferences:$dataStoreVersion"
 
 }

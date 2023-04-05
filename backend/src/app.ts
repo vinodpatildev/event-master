@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
 import eventsRoutes from "./routes/events";
+import notificationsRoutes from "./routes/notifications";
 import adminsRoutes from "./routes/admins";
 import studentsRoutes from "./routes/students";
 import morgan from "morgan";
@@ -34,6 +35,8 @@ app.use("/api/students/",studentsRoutes);
 app.use("/api/admins/",adminsRoutes);
  
 app.use("/api/events/", requiresAuth, eventsRoutes);
+
+app.use("/api/notifications/", notificationsRoutes );
 
 app.use((req,res,next) => {
     next(createHttpError(404, "Endpoint not found."));

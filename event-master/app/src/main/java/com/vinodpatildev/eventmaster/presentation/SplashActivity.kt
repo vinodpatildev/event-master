@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import com.vinodpatildev.eventmaster.R
+import com.vinodpatildev.eventmaster.presentation.ui.auth.SignInActivity
 import com.vinodpatildev.eventmaster.presentation.ui.login.LoginActivity
 
 class SplashActivity : AppCompatActivity() {
@@ -17,7 +18,7 @@ class SplashActivity : AppCompatActivity() {
 
         Handler().postDelayed({
             // You can declare your desire activity here to open after finishing splash screen. Like MainActivity
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this, SignInActivity::class.java)
             startActivity(intent)
             finish()
         },TIME_OUT)

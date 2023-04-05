@@ -5,9 +5,9 @@ import EventModel, { EventState } from '../models/event';
 import { assertIsDefined } from '../util/assertIsDefined';
 
 export const getAllEvents: RequestHandler = async (req, res, next) => {
-    const authenticatedUserId = req.session.userSessionId;
+    // const authenticatedUserId = req.session.userSessionId;
     try{
-        assertIsDefined(authenticatedUserId);
+        // assertIsDefined(authenticatedUserId);
         const events = await EventModel.find().exec();
         res.status(200).json(events);
     }catch(error){

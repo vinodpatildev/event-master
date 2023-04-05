@@ -45,7 +45,6 @@ class LoginActivity : AppCompatActivity() {
 
         signInUserType = "student"
 
-
         tvStudent?.setOnClickListener{
             if(signInUserType != "student"){
                 signInUserType = "student"

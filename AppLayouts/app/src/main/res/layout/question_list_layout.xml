@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_bg">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/status_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/answered_button"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/button_answered"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="#fff"
+                android:textSize="30sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Answered"
+                app:layout_constraintBottom_toBottomOf="@id/answered_button"
+                app:layout_constraintLeft_toRightOf="@id/answered_button"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/notAnsweredButton"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/button_not_answered"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="#fff"
+                android:textSize="30sp"
+                app:layout_constraintLeft_toRightOf="@id/answered_button"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txt_not_answered"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:padding="5dp"
+                android:text="Not"
+                app:layout_constraintLeft_toRightOf="@id/notAnsweredButton"
+                app:layout_constraintTop_toTopOf="@id/notAnsweredButton" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-8dp"
+                android:padding="5dp"
+                android:text="Answered"
+                app:layout_constraintBottom_toBottomOf="@id/notAnsweredButton"
+                app:layout_constraintLeft_toRightOf="@id/notAnsweredButton"
+                app:layout_constraintTop_toBottomOf="@id/txt_not_answered" />
+
+            <TextView
+                android:id="@+id/notVisited"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/button_not_visited"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="#000"
+                android:textSize="30sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/answered_button" />
+
+            <TextView
+                android:id="@+id/txt_not_visited"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:padding="5dp"
+                android:text="Not"
+                app:layout_constraintLeft_toRightOf="@id/notVisited"
+                app:layout_constraintTop_toTopOf="@id/notVisited" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-8dp"
+                android:padding="5dp"
+                android:text="Visited"
+                app:layout_constraintBottom_toBottomOf="@id/notVisited"
+                app:layout_constraintHorizontal_bias="0.744"
+                app:layout_constraintLeft_toRightOf="@id/notVisited"
+                app:layout_constraintTop_toBottomOf="@id/txt_not_visited"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <TextView
+                android:id="@+id/mark_for_review_button"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/button_marked_for_review"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="#fff"
+                android:textSize="30sp"
+                app:layout_constraintLeft_toRightOf="@id/notVisited"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/notAnsweredButton" />
+
+            <TextView
+                android:id="@+id/txt_mark_for_review"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Mark For Review"
+                app:layout_constraintBottom_toBottomOf="@id/mark_for_review_button"
+                app:layout_constraintLeft_toRightOf="@id/mark_for_review_button"
+                app:layout_constraintTop_toTopOf="@id/mark_for_review_button" />
+
+            <TextView
+                android:id="@+id/answer_and_mark_button"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/button_answered_and_mark_review"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="#fff"
+                android:textSize="30sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/notVisited" />
+
+            <TextView
+                android:id="@+id/txt_marked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:padding="5dp"
+                android:text="Answered &amp; Marked "
+                app:layout_constraintLeft_toRightOf="@id/answer_and_mark_button"
+                app:layout_constraintTop_toTopOf="@id/answer_and_mark_button" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-8dp"
+                android:padding="5dp"
+                android:text="For Review"
+                app:layout_constraintBottom_toBottomOf="@id/answer_and_mark_button"
+                app:layout_constraintLeft_toRightOf="@id/answer_and_mark_button"
+                app:layout_constraintTop_toBottomOf="@id/txt_marked" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#000"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_details" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <GridView
+                android:id="@+id/questionGridView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="8dp"
+                android:columnWidth="40dp"
+                android:gravity="center"
+                android:horizontalSpacing="8dp"
+                android:numColumns="auto_fit"
+                android:padding="4dp"
+                android:verticalSpacing="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+            </GridView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

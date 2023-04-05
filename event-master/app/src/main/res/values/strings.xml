@@ -29,5 +29,44 @@
     <string name="edit_text_hint_organizer_department">Organizer Department</string>
     <string name="edit_text_hint_oranizer_name">Oranizer Name</string>
 
+    <string-array name="batch_year_options">
+        <item>First Year</item>
+        <item>Second Year</item>
+        <item>Third Year</item>
+        <item>Fourth Year</item>
+    </string-array>
+    <string-array name="department_options">
+        <item>Computer Engineering Department</item>
+        <item>Information Technology Department</item>
+        <item>Mechanical Engineering Department</item>
+        <item>Civil Engineering Department</item>
+        <item>Electronics and Telecommunications Engineering Department</item>
+    </string-array>
+    <string-array name="division_options">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+    </string-array>
+    <string-array name="passing_year_options">
+        <item>2023</item>
+        <item>2024</item>
+        <item>2025</item>
+        <item>2026</item>
+    </string-array>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
 
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

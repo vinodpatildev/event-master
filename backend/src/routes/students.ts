@@ -13,4 +13,14 @@ router.post("/login", StudentController.login);
 
 router.post("/logout", StudentController.logout);
 
+router.post("/update/:studentId", StudentController.updateStudent);
+
+router.post("/password/:studentId", StudentController.updateStudentPassword);
+
+router.post("/forgot/:studentId", StudentController.forgetStudentPassword);
+
+
+
+
+
 export default router;

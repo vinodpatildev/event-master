@@ -9,11 +9,11 @@ export enum EventState {
 const eventSchema = new Schema({
     adminId: { type: Schema.Types.ObjectId, required: true },
     title: { type: String, required: true },
-    department: { type: String, required: true },
-    organizer: { type: String, required: true },
-    description: { type: String, required: true },
-    type: {type: String, required: true},
-    event_link: {type: String, required: true},
+    department: { type: String },
+    organizer: { type: String },
+    description: { type: String },
+    type: {type: String},
+    event_link: {type: String},
     start: { type: Date, required: true },
     end: { type: Date, required: true },
     state: {

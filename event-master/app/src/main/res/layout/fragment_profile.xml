@@ -6,86 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".presentation.ui.profile.ProfileFragment">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/user_profile_photo"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="-80dp"
-        android:background="@drawable/profile_circular_border_imageview"
-        android:elevation="5dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_profile"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivPlaceHolder"
-        app:tint="@color/white"
-        />
 
-    <ImageView
-        android:id="@+id/ivPlaceHolder"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/placeholder_image"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="match_parent"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph_profile"
         />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:paddingTop="120dp"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp"
-        app:layout_constraintTop_toBottomOf="@id/ivPlaceHolder"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        >
-        <TextView
-            android:id="@+id/tvProfileFieldNameValue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="User Name"
-            android:textColor="@color/item_happy_place_description_text_color"
-            android:textSize="@dimen/item_happy_place_title_textSize"
-            android:textStyle="bold"
-            android:gravity="center_horizontal"
-            />
-
-        <TextView
-            android:id="@+id/tvProfileFieldEmailValue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="username@ghrcem.raisoni.net"
-            android:textColor="@color/item_happy_place_description_text_color"
-            android:textSize="@dimen/item_happy_place_title_textSize"
-            android:textStyle="bold"
-            android:gravity="center_horizontal"
-            />
-        </LinearLayout>
-    <ImageButton
-        android:id="@+id/btnEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/ivPlaceHolder"
-        app:layout_constraintEnd_toStartOf="@+id/btnProfilePageMenu"
-        android:layout_margin="20dp"
-        android:src="@drawable/ic_baseline_edit_24"
-        android:background="@color/white"
-        app:tint="@color/black" />
-    <ImageButton
-        android:id="@+id/btnProfilePageMenu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/ivPlaceHolder"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="20dp"
-        android:src="@drawable/ic_baseline_menu"
-        android:background="@color/white"
-        app:tint="@color/black" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

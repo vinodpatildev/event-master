@@ -1,134 +1,88 @@
 package com.vinodpatildev.eventmaster.presentation.ui.home
 
+import android.app.ProgressDialog
 import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vinodpatildev.eventmaster.R
 import com.vinodpatildev.eventmaster.data.model.Event
+import com.vinodpatildev.eventmaster.data.model.Notification
+import com.vinodpatildev.eventmaster.data.util.Resource
 import com.vinodpatildev.eventmaster.databinding.FragmentHomeBinding
+import com.vinodpatildev.eventmaster.presentation.MainActivity
+import com.vinodpatildev.eventmaster.presentation.adapter.EventListAdapter
 import com.vinodpatildev.eventmaster.presentation.ui.event.details.EventDetailsActivity
+import com.vinodpatildev.eventmaster.presentation.viewmodel.ViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
-    private lateinit var binding: FragmentHomeBinding
+    private  var binding: FragmentHomeBinding? = null
+    private lateinit var progressDialog: ProgressDialog
     companion object {
         fun newInstance() = HomeFragment()
     }
-    private lateinit var viewModel: HomeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val events = listOf<Event>(
-            Event(
-                eventId = 1,
-                eventName = "Expert session on “Career Opportunities and Skill Development”.",
-                eventDate = "01/07/2022",
-                eventOrganizer = "Mr.Vinod Patil",
-                eventOrganizerDepartment = "Department of First Year B.Tech",
-                eventDetails = "Expert session on “Career Opportunities and Skill Development” organized by Department of First Year B.Tech on 1st July, 2022",
-            ),
-            Event(
-                eventId = 2,
-                eventName = "Expert session on “Career Opportunities and Skill Development”.",
-                eventDate = "01/07/2022",
-                eventOrganizer = "Mr.Vinod Patil",
-                eventOrganizerDepartment = "Department of First Year B.Tech",
-                eventDetails = "Expert session on “Career Opportunities and Skill Development” organized by Department of First Year B.Tech on 1st July, 2022",
-            ),
-            Event(
-                eventId = 3,
-                eventName = "Expert session on “Career Opportunities and Skill Development”.",
-                eventDate = "01/07/2022",
-                eventOrganizer = "Mr.Vinod Patil",
-                eventOrganizerDepartment = "Department of First Year B.Tech",
-                eventDetails = "Expert session on “Career Opportunities and Skill Development” organized by Department of First Year B.Tech on 1st July, 2022",
-            ),
-            Event(
-                eventId = 4,
-                eventName = "Expert session on “Career Opportunities and Skill Development”.",
-                eventDate = "01/07/2022",
-                eventOrganizer = "Mr.Vinod Patil",
-                eventOrganizerDepartment = "Department of First Year B.Tech",
-                eventDetails = "Expert session on “Career Opportunities and Skill Development” organized by Department of First Year B.Tech on 1st July, 2022",
-            ),
-            Event(
-                eventId = 5,
-                eventName = "Expert session on “Career Opportunities and Skill Development”.",
-                eventDate = "01/07/2022",
-                eventOrganizer = "Mr.Vinod Patil",
-                eventOrganizerDepartment = "Department of First Year B.Tech",
-                eventDetails = "Expert session on “Career Opportunities and Skill Development” organized by Department of First Year B.Tech on 1st July, 2022",
-            ),
-            Event(
-                eventId = 6,
-                eventName = "Expert session on “Career Opportunities and Skill Development”.",
-                eventDate = "01/07/2022",
-                eventOrganizer = "Mr.Vinod Patil",
-                eventOrganizerDepartment = "Department of First Year B.Tech",
-                eventDetails = "Expert session on “Career Opportunities and Skill Development” organized by Department of First Year B.Tech on 1st July, 2022",
-            ),
-            Event(
-                eventId = 7,
-                eventName = "Expert session on “Career Opportunities and Skill Development”.",
-                eventDate = "01/07/2022",
-                eventOrganizer = "Mr.Vinod Patil",
-                eventOrganizerDepartment = "Department of First Year B.Tech",
-                eventDetails = "Expert session on “Career Opportunities and Skill Development” organized by Department of First Year B.Tech on 1st July, 2022",
-            ),
-            Event(
-                eventId = 8,
-                eventName = "Expert session on “Career Opportunities and Skill Development”.",
-                eventDate = "01/07/2022",
-                eventOrganizer = "Mr.Vinod Patil",
-                eventOrganizerDepartment = "Department of First Year B.Tech",
-                eventDetails = "Expert session on “Career Opportunities and Skill Development” organized by Department of First Year B.Tech on 1st July, 2022",
-            ),
-            Event(
-                eventId = 9,
-                eventName = "Expert session on “Career Opportunities and Skill Development”.",
-                eventDate = "01/07/2022",
-                eventOrganizer = "Mr.Vinod Patil",
-                eventOrganizerDepartment = "Department of First Year B.Tech",
-                eventDetails = "Expert session on “Career Opportunities and Skill Development” organized by Department of First Year B.Tech on 1st July, 2022",
-            ),
-            Event(
-                eventId = 10,
-                eventName = "Expert session on “Career Opportunities and Skill Development”.",
-                eventDate = "01/07/2022",
-                eventOrganizer = "Mr.Vinod Patil",
-                eventOrganizerDepartment = "Department of First Year B.Tech",
-                eventDetails = "Expert session on “Career Opportunities and Skill Development” organized by Department of First Year B.Tech on 1st July, 2022",
-            )
-            )
-        binding.rvHomeEventList.layoutManager = LinearLayoutManager(this.context)
-        binding.rvHomeEventList.adapter = EventListAdapter(events,{
-            clickedEvent: Event -> onEventCardClicked(clickedEvent)
-        })
+        val mainActivity = requireActivity() as MainActivity
 
+        progressDialog = ProgressDialog(context)
+        progressDialog.setMessage("Loading....")
+        progressDialog.setCancelable(false)
+
+        mainActivity.viewModel.getEvents()
+        binding?.rvHomeEventList?.layoutManager = LinearLayoutManager(this.context)
+        mainActivity.viewModel.eventList.observe(viewLifecycleOwner, Observer { response ->
+            when(response){
+                is Resource.Success -> {
+                    binding?.rvHomeEventList?.adapter = EventListAdapter(this.requireContext(),response.data!!) { clickedEvent: Event ->
+                        onEventCardClicked(clickedEvent)
+                    }
+                    progressDialog.hide()
+                }
+                is Resource.Loading -> {
+                    progressDialog.show()
+                }
+                is Resource.Error -> {
+                    binding?.rvHomeEventList?.adapter = EventListAdapter(this.requireContext(),listOf<Event>()) { clickedEvent: Event ->
+                        onEventCardClicked(clickedEvent)
+                    }
+                    progressDialog.hide()
+                    Toast.makeText(context,response.message,Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        })
     }
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
+
     private fun onEventCardClicked(clickedEvent: Event) {
-        Toast.makeText(this.context, "Event [${clickedEvent.eventId}] is clicked",Toast.LENGTH_LONG).show()
         val eventDetailsIntent = Intent(this.context,EventDetailsActivity::class.java)
         eventDetailsIntent.putExtra(Event.TAG,clickedEvent)
         startActivity(eventDetailsIntent)
+    }
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).supportActionBar?.setTitle("Event Master")
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 }
