@@ -15,6 +15,7 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.size
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.vinodpatildev.eventmaster.R
 import com.vinodpatildev.eventmaster.data.model.Student
 import com.vinodpatildev.eventmaster.data.util.Resource
@@ -84,7 +85,7 @@ class MainActivity : AppCompatActivity() {
                 is Resource.Error -> {
                     progressDialog.hide()
                     response.message?.let{
-                        Toast.makeText(this,"Error Occured:$it", Toast.LENGTH_LONG).show()
+                        Snackbar.make(binding.root,"Error Occured:$it", Snackbar.LENGTH_LONG).show()
                     }
                 }
             }

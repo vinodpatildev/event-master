@@ -19,6 +19,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.ui.auth.OtpActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.ui.auth.ForgetPasswordActivity"
             android:exported="false" />
         <activity
@@ -26,13 +29,10 @@
             android:exported="false" />
         <activity
             android:name=".presentation.ui.auth.SignInActivity"
-            android:exported="false" >
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".TestActivity"
-            android:exported="false" >
-
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".presentation.ui.event.editor.EventEditActivity"
             android:exported="false" />

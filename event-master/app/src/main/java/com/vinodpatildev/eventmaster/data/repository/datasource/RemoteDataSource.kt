@@ -12,6 +12,8 @@ interface RemoteDataSource {
     suspend fun signInStudent(username: String, password: String) : Response<Student>
     suspend fun signUpStudent(username: String, email: String, password: String, name:String, registration_no:String, dob:String, mobile_no:String, year:String, department:String, division:String, passing_year:String) : Response<Student>
     suspend fun signOutStudent() : Response<Void>
+    suspend fun forgetStudentPassword(username:String, email:String):Response<Void>
+    suspend fun resetStudentPassword(email:String, password:String, otp:String):Response<Void>
     suspend fun updateStudentData(cookies: String,
                                   studentId: String,
                                   name: String,
@@ -26,5 +28,6 @@ interface RemoteDataSource {
                                       studentId: String,
                                       oldPassword: String,
                                       newPassword: String):Response<Void>
+    suspend fun registerForEventStudent(cookies:String,studentId:String, eventId:String) : Response<Void>
 
 }

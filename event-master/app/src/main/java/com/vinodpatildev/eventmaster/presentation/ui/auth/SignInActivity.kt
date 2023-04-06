@@ -20,6 +20,9 @@ import com.vinodpatildev.eventmaster.presentation.viewmodel.ViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
+import com.vinodpatildev.eventmaster.databinding.ActivityForgetPasswordBinding
+import com.vinodpatildev.eventmaster.databinding.ActivitySignInBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,6 +34,9 @@ class SignInActivity : AppCompatActivity() {
     lateinit var viewModelFactory: ViewModelFactory
     lateinit var viewModel: ViewModel
 
+    private lateinit var binding: ActivitySignInBinding
+
+
     var userStatus: Boolean = false
 
     private lateinit var usernameLogin: TextView
@@ -38,22 +44,15 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var btnLogin: Button
     private lateinit var txtRegister: TextView
     private lateinit var txtForgetPassword: TextView
-    private lateinit var progressBar: ProgressBar
     private lateinit var progressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_in)
+        binding = ActivitySignInBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.hide()
         viewModel = ViewModelProvider(this, viewModelFactory ).get(ViewModel::class.java)
 
-
-        usernameLogin = findViewById(R.id.et_username_login)
-        passwordLogin = findViewById(R.id.et_password_login)
-        btnLogin = findViewById(R.id.btn_login)
-        txtRegister = findViewById(R.id.txt_register)
-        txtForgetPassword = findViewById(R.id.txt_forget_password)
-        progressBar = findViewById(R.id.progressLogin)
         progressDialog = ProgressDialog(this)
         progressDialog.setMessage("Signing in....")
         progressDialog.setCancelable(false)
@@ -65,7 +64,6 @@ class SignInActivity : AppCompatActivity() {
                 is Resource.Success->{
                     progressDialog.hide()
                     response.data?.let {
-//                        Toast.makeText(this,it.toString(),Toast.LENGTH_LONG).show()
                         viewModel.onAuthCompleted(
                             it.cookies,
                             true,
@@ -88,41 +86,37 @@ class SignInActivity : AppCompatActivity() {
                     }
                 }
                 is Resource.Loading->{
-                    Log.i("success","loading")
                     progressDialog.show()
                 }
                 is Resource.Error->{
                     progressDialog.hide()
                     response.message?.let{
-                        Toast.makeText(this,"Error Occured:$it", Toast.LENGTH_LONG).show()
+                        Snackbar.make(binding.root,"Error Occured:$it", Snackbar.LENGTH_LONG).show()
                     }
                 }
             }
         })
 
 
-        btnLogin.setOnClickListener {
-            if (usernameLogin.text.trim().toString().isEmpty()) {
-                usernameLogin.error = "Please enter a valid username"
-                usernameLogin.requestFocus()
-            } else if (passwordLogin.text.trim().toString().isEmpty()) {
-                passwordLogin.error = "Please enter a valid password"
-                passwordLogin.requestFocus()
+        binding.btnLogin.setOnClickListener {
+            if (binding.etUsernameLogin.text?.trim().toString().isEmpty()) {
+                binding.etUsernameLogin.error = "Please enter a valid username"
+                binding.etUsernameLogin.requestFocus()
+            } else if (binding.etPasswordLogin.text?.trim().toString().isEmpty()) {
+                binding.etPasswordLogin.error = "Please enter a valid password"
+                binding.etPasswordLogin.requestFocus()
             } else {
-                progressBar.visibility = View.VISIBLE
-                val username = usernameLogin.text.trim().toString()
-                val password = passwordLogin.text.trim().toString()
+                val username = binding.etUsernameLogin.text?.trim().toString()
+                val password = binding.etPasswordLogin.text?.trim().toString()
 
-                // Sign In the user
-                // Do UI Changes
                 viewModel.signInStudent(username,password)
             }
         }
-        txtRegister.setOnClickListener {
+        binding.txtRegister.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
             finish()
         }
-        txtForgetPassword.setOnClickListener {
+        binding.txtForgetPassword.setOnClickListener {
             startActivity(Intent(this, ForgetPasswordActivity::class.java))
             finish()
         }

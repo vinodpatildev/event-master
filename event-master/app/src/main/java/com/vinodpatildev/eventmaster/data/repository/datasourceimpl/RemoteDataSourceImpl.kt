@@ -5,20 +5,15 @@ import com.vinodpatildev.eventmaster.data.model.Event
 import com.vinodpatildev.eventmaster.data.model.Notification
 import com.vinodpatildev.eventmaster.data.model.Student
 import com.vinodpatildev.eventmaster.data.repository.datasource.RemoteDataSource
-import okhttp3.Cookie
-import okhttp3.JavaNetCookieJar
-import okhttp3.OkHttpClient
 import retrofit2.Response
-import java.net.CookieHandler
-import java.net.CookieManager
 
 class RemoteDataSourceImpl(private val apiService: ApiService): RemoteDataSource {
     override suspend fun getEvents(cookiesData:String, ): Response<List<Event>> {
-        return apiService.getEvents(cookiesData)
+        return apiService.getEventsStudent(cookiesData)
     }
 
     override suspend fun getNotifications(cookiesData:String, ): Response<List<Notification>> {
-        return apiService.getNotifications(cookiesData)
+        return apiService.getNotificationsStudent(cookiesData)
     }
 
     override suspend fun signInStudent(
@@ -48,6 +43,18 @@ class RemoteDataSourceImpl(private val apiService: ApiService): RemoteDataSource
         return apiService.signOutStudent()
     }
 
+    override suspend fun forgetStudentPassword(username: String, email: String): Response<Void> {
+        return apiService.forgetPasswordStudent(ForgetPasswordRequest(username,email))
+    }
+
+    override suspend fun resetStudentPassword(
+        email: String,
+        password: String,
+        otp: String
+    ): Response<Void> {
+        return apiService.resetPasswordStudent(ResetPasswordRequest(email,password,otp))
+    }
+
     override suspend fun updateStudentData(
         cookies: String,
         studentId: String,
@@ -60,7 +67,7 @@ class RemoteDataSourceImpl(private val apiService: ApiService): RemoteDataSource
         division: String,
         passing_year: String
     ): Response<Student> {
-        return apiService.updateStudentData(cookies, UpdateStudentDataRequest(name,registration_no,dob,mobile_no,year,department,division,passing_year),studentId)
+        return apiService.updateDataStudent(cookies, UpdateStudentDataRequest(name,registration_no,dob,mobile_no,year,department,division,passing_year),studentId)
     }
 
     override suspend fun updateStudentPassword(
@@ -69,7 +76,15 @@ class RemoteDataSourceImpl(private val apiService: ApiService): RemoteDataSource
         oldPassword: String,
         newPassword: String
     ): Response<Void> {
-        return apiService.updateStudentPassword(cookies, UpdateStudentPasswordRequest(oldPassword,newPassword),studentId)
+        return apiService.updatePasswordStudent(cookies, UpdateStudentPasswordRequest(oldPassword,newPassword),studentId)
+    }
+
+    override suspend fun registerForEventStudent(
+        cookies:String,
+        studentId: String,
+        eventId: String
+    ): Response<Void> {
+        return apiService.registerForEventStudent(cookies,RegisterEventStudentRequest(studentId, eventId))
     }
 
 }

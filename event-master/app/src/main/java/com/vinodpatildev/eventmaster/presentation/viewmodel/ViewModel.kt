@@ -25,7 +25,10 @@ class ViewModel(
     private val signUpStudentUseCase : SignUpStudentUseCase,
     private val signOutStudentUseCase: SignOutStudentUseCase,
     private val updateStudentDataUseCase: UpdateStudentDataUseCase,
-    private val updateStudentPasswordUseCase: UpdateStudentPasswordUseCase
+    private val updateStudentPasswordUseCase: UpdateStudentPasswordUseCase,
+    private val forgetStudentPasswordUseCase: ForgetStudentPasswordUseCase,
+    private val resetStudentPasswordUseCase: ResetStudentPasswordUseCase,
+    private val registerEventStudentUseCase: RegisterEventStudentUseCase
 ):AndroidViewModel(app) {
     var studentData :Student? = null
     var cookiesData :String? = null
@@ -44,6 +47,11 @@ class ViewModel(
 
     val eventList: MutableLiveData<Resource<List<Event>>> = MutableLiveData()
     val notificationList: MutableLiveData<Resource<List<Notification>>> = MutableLiveData()
+
+    val forgetPasswordResult:MutableLiveData<Resource<Boolean>> = MutableLiveData()
+    val resetPasswordResult:MutableLiveData<Resource<Boolean>> = MutableLiveData()
+
+    val registerEventStudentResult:MutableLiveData<Resource<Boolean>> = MutableLiveData()
 
     init {
         viewModelScope.launch {
@@ -113,6 +121,34 @@ class ViewModel(
         }
     }
 
+    fun forgetStudentPassword(username: String, email: String) = viewModelScope.launch(Dispatchers.IO){
+        forgetPasswordResult.postValue(Resource.Loading())
+        try {
+            if(isNetworkAvailable(app)){
+                val apiResult = forgetStudentPasswordUseCase.execute(username, email)
+                forgetPasswordResult.postValue(apiResult)
+            }else{
+                forgetPasswordResult.postValue(Resource.Success(true))
+            }
+        }catch (e:Exception){
+            forgetPasswordResult.postValue(Resource.Error(e.message.toString()))
+        }
+    }
+
+    fun resetStudentPassword(email: String, password: String, otp:String) = viewModelScope.launch(Dispatchers.IO){
+        resetPasswordResult.postValue(Resource.Loading())
+        try {
+            if(isNetworkAvailable(app)){
+                val apiResult = resetStudentPasswordUseCase.execute(email, password, otp)
+                resetPasswordResult.postValue(apiResult)
+            }else{
+                resetPasswordResult.postValue(Resource.Success(true))
+            }
+        }catch (e:Exception){
+            resetPasswordResult.postValue(Resource.Error(e.message.toString()))
+        }
+    }
+
     fun getEvents() = viewModelScope.launch(Dispatchers.IO){
         eventList.postValue(Resource.Loading())
         try {
@@ -127,6 +163,7 @@ class ViewModel(
             eventList.postValue(Resource.Error(e.message.toString()))
         }
     }
+
     fun getNotifications() = viewModelScope.launch(Dispatchers.IO){
         notificationList.postValue(Resource.Loading())
         try {
@@ -170,6 +207,7 @@ class ViewModel(
             updateStudentDataResult.postValue(Resource.Error(e.message.toString()))
         }
     }
+
     fun updateStudentPassword(oldPassword:String, newPassword:String) = viewModelScope.launch(Dispatchers.IO){
         updateStudentPasswordResult.postValue(Resource.Loading())
         try {
@@ -185,6 +223,20 @@ class ViewModel(
             }
         }catch (e:Exception){
             updateStudentPasswordResult.postValue(Resource.Error(e.message.toString()))
+        }
+    }
+
+    fun registerEventStudent(eventId:String) = viewModelScope.launch(Dispatchers.IO) {
+        registerEventStudentResult.postValue(Resource.Loading())
+        try {
+            if(isNetworkAvailable(app)){
+                val apiResult = studentData?.let { registerEventStudentUseCase.execute(cookiesData!!, it._id, eventId) }
+                registerEventStudentResult.postValue(apiResult!!)
+            }else{
+                registerEventStudentResult.postValue(Resource.Error("Internet is not available."))
+            }
+        }catch (e:Exception){
+            registerEventStudentResult.postValue(Resource.Error(e.message.toString()))
         }
     }
 

@@ -95,7 +95,7 @@ class ProfileUpdatePasswordFragment : Fragment() {
                 is Resource.Error->{
                     progressDialog.hide()
                     response.message?.let{
-                        Toast.makeText(requireContext(),"Error Occured:$it", Toast.LENGTH_LONG).show()
+                        Snackbar.make(binding.root,"Error Occured:$it", Snackbar.LENGTH_LONG).show()
                     }
                 }
             }

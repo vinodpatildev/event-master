@@ -18,6 +18,7 @@
     "@types/http-errors": "^2.0.1",
     "@types/morgan": "^1.9.4",
     "@types/node-cron": "^3.0.7",
+    "@types/nodemailer": "^6.4.7",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
     "@typescript-eslint/parser": "^5.49.0",
     "eslint": "^8.33.0",
@@ -38,6 +39,7 @@
     "mongo-connect": "^0.0.6",
     "mongoose": "^6.9.0",
     "morgan": "^1.10.0",
-    "node-cron": "^3.0.2"
+    "node-cron": "^3.0.2",
+    "nodemailer": "^6.9.1"
   }
 }

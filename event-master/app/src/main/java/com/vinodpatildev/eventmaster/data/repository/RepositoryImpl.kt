@@ -62,7 +62,27 @@ class RepositoryImpl(
         if(response.isSuccessful){
             return Resource.Success(true)
         }
-        return Resource.Error("Not able to sign out.")
+        return Resource.Error(response.message())
+    }
+
+    override suspend fun forgetStudentPassword(username: String, email: String): Resource<Boolean> {
+        val response = remoteDataSource.forgetStudentPassword(username,email)
+        if(response.isSuccessful){
+            return Resource.Success(true)
+        }
+        return Resource.Error(response.message())
+    }
+
+    override suspend fun resetStudentPassword(
+        email: String,
+        password: String,
+        otp: String
+    ): Resource<Boolean> {
+        val response = remoteDataSource.resetStudentPassword(email,password,otp)
+        if(response.isSuccessful){
+            return Resource.Success(true)
+        }
+        return Resource.Error(response.message())
     }
 
     override suspend fun updateStudentData(
@@ -110,6 +130,18 @@ class RepositoryImpl(
             return Resource.Success(true)
         }
         return Resource.Error("Not able to update password.")
+    }
+
+    override suspend fun registerForEventStudent(
+        cookies: String,
+        studentId: String,
+        eventId: String
+    ): Resource<Boolean> {
+        val response = remoteDataSource.registerForEventStudent(cookies,studentId, eventId)
+        if(response.isSuccessful){
+            return Resource.Success(true)
+        }
+        return Resource.Error(response.message())
     }
 
     fun responseToResourceEvents(response: Response<List<Event>>):Resource<List<Event>>{

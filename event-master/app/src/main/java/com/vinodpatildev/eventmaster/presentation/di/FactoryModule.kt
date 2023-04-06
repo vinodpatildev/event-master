@@ -24,8 +24,11 @@ class FactoryModule {
         signUpStudentUseCase: SignUpStudentUseCase,
         signOutStudentUseCase: SignOutStudentUseCase,
         updateStudentDataUseCase: UpdateStudentDataUseCase,
-        updateStudentPasswordUseCase: UpdateStudentPasswordUseCase
+        updateStudentPasswordUseCase: UpdateStudentPasswordUseCase,
+        forgetStudentPasswordUseCase: ForgetStudentPasswordUseCase,
+        resetStudentPasswordUseCase: ResetStudentPasswordUseCase,
+        registerEventStudentUseCase: RegisterEventStudentUseCase
     ): ViewModelFactory {
-        return ViewModelFactory(application, preferencesManager ,getEventsUseCase, getNotificationsUseCase ,loginStudentUseCase, signUpStudentUseCase, signOutStudentUseCase, updateStudentDataUseCase, updateStudentPasswordUseCase)
+        return ViewModelFactory(application, preferencesManager ,getEventsUseCase, getNotificationsUseCase ,loginStudentUseCase, signUpStudentUseCase, signOutStudentUseCase, updateStudentDataUseCase, updateStudentPasswordUseCase, forgetStudentPasswordUseCase,resetStudentPasswordUseCase, registerEventStudentUseCase)
     }
 }

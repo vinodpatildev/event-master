@@ -22,9 +22,26 @@ const eventSchema = new Schema({
         default: EventState.UPCOMING,
         required: true,
     },
+    attendees: [
+        {
+          student: {
+            type: Schema.Types.ObjectId,
+            ref: "student",
+            required: true,
+          },
+          present: { type: Boolean, default: false },
+        },
+      ],
 },{
     timestamps : true
 });
+
+eventSchema.set("toJSON", {
+    transform: function (doc, ret) {
+      delete ret.attendees;
+      return ret;
+    },
+  });
 
 type Event = InferSchemaType<typeof eventSchema>;
 

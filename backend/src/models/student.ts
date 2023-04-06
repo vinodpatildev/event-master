@@ -12,7 +12,33 @@ const studentSchema = new Schema({
     department: {type: String },
     division: {type: String },
     passing_year: {type: String },
+    otp:{ type:String, default:'', select:false },
+    events_registered: [
+        {
+          event: {
+            type: Schema.Types.ObjectId,
+            ref: "event",
+            required: true,
+          }
+        },
+      ],
+      events_attended: [
+        {
+          event: {
+            type: Schema.Types.ObjectId,
+            ref: "event",
+            required: true,
+          }
+        },
+      ],
 });
+studentSchema.set("toJSON", {
+    transform: function (doc, ret) {
+      delete ret.events_registered;
+      delete ret.events_attended;
+      return ret;
+    },
+  });
 
 type Student = InferSchemaType<typeof studentSchema>;
 

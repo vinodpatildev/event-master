@@ -1,9 +1,12 @@
 import mongoose from 'mongoose';
+import nodemailer from 'nodemailer';
 import { RequestHandler } from "express";
 import createHttpError from 'http-errors';
 import StudentModel from "../models/student";
+import EventModel from "../models/event";
 import bcrypt from "bcrypt";
 import { assertIsDefined } from '../util/assertIsDefined';
+
 
 export const getAuthenticatedStudent: RequestHandler = async (req, res, next) => {
     try{
@@ -254,24 +257,152 @@ export const forgetStudentPassword: RequestHandler<unknown, unknown, ForgetStude
             throw createHttpError(400, "Parameters missing.");
         }
 
-        const student = await StudentModel.findOne({username:usernameRaw}).select("+password +email").exec();
+        const student = await StudentModel.findOne({username:usernameRaw, email:emailRaw}).exec();
 
         if(!student){
-            throw createHttpError(404,"Student not found.")
+            throw createHttpError(404,"Student with given details not found.")
         }
 
-        if(student.email != emailRaw){
-            throw createHttpError(401,"This account belongs to someone else.");
-        }
+        // Generate a random OTP and store it in a database or cache
+        const otp = Math.floor(100000 + Math.random() * 900000);
 
-        //send email//
+        student.otp = otp.toString()
 
-        res.sendStatus(200);
+        await student.save()
+
+        
+        // Send the OTP to the user's email
+        const transporter = nodemailer.createTransport({
+            // service:"gmail",
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure: false,
+            auth: {
+                user: "developer.vinod.patil@gmail.com",
+                pass: "xrfnktlflvjsrrli",
+            },
+        });
+
+        const mailOptions = {
+            from: 'developer.vinod.patil@gmail.com',
+            to: emailRaw,
+            subject: 'Password Reset OTP',
+            text: `Your OTP for resetting the password is ${otp}`,
+        };
+        await transporter.sendMail(mailOptions);
+
+        // Return a success response
+        res.sendStatus(200)
 
     }catch(error){
         next(error);
     }
 
 }
+
+
+interface ResetStudentPasswordBody{
+    email: string,
+    password: string,
+    otp: string,
+}
+
+export const resetStudentPassword: RequestHandler<unknown, unknown, ResetStudentPasswordBody, unknown> = async(req, res, next) => {
+    const emailRaw = req.body.email;
+    const passwordRaw = req.body.password;
+    const otpRaw = req.body.otp;
+
+    try {
+        if(!passwordRaw || !otpRaw) {
+            throw createHttpError(400, "Parameters missing.");
+        }
+
+        const student = await StudentModel.findOne({ email:emailRaw }).select("+otp").exec();
+
+        if(!student){
+            throw createHttpError(404,"Student with given details not found.")
+        }
+
+        if(otpRaw != student.otp){
+            throw createHttpError(400, "Wrong credentials");
+        }  
+
+        const passwordHashed = await bcrypt.hash(passwordRaw, 10);
+        
+        student.otp = ""
+        student.password = passwordHashed
+    
+        await student.save()
+
+        // Return a success response
+        res.sendStatus(200)
+
+    }catch(error){
+        next(error);
+    }
+}
+
+interface RegisterStudentForEventBody{
+    studentId:string,
+    eventId:string,
+}
+
+export const registerStudentForEvent: RequestHandler<unknown, unknown, RegisterStudentForEventBody, unknown> = async(req, res, next) => {
+    const eventId = req.body.eventId;
+    const studentId = req.body.studentId;
+    const authenticatedStudentId = req.session.userSessionId
+
+    try {
+        if(!eventId || !studentId) {
+            throw createHttpError(400, "Parameters missing.");
+        }
+        assertIsDefined(authenticatedStudentId);
+        if(!mongoose.isValidObjectId(eventId)){
+            throw createHttpError(400, "Invalid event id. ")
+        }
+        if(!mongoose.isValidObjectId(studentId)){
+            throw createHttpError(400, "Invalid student id. ")
+        }
+
+        const student = await StudentModel.findById(studentId);
+        if (!student) {
+            return res.status(404).json({ message: "Student not found" });
+        }
+
+        if(!student._id.equals(authenticatedStudentId)){
+            throw createHttpError(401,"You cannot register this for this event.");
+        }
+
+        const event = await EventModel.findById(eventId).select("+attendees").exec();
+        if (!event) {
+            return res.status(404).json({ message: "Event not found" });
+        }
+
+        if (event.attendees.some((a) => a.student.toString() === studentId)) {
+            return res
+              .status(400)
+              .json({ message: "Student already registered for this event" });
+        }
+
+        event.attendees.push({ student: student._id , present:false});
+        await event.save();
+        
+        if(student.events_registered.some((a) => a.event.toString() == eventId)){
+            return res
+              .status(400)
+              .json({ message: "Student already registered for this event" }); 
+        }
+
+        student.events_registered.push({event:event._id});
+        await student.save();
+
+        res.sendStatus(200)
+
+    }catch(error){
+        next(error);
+    }
+}
+
+
 
 

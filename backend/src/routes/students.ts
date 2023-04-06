@@ -17,9 +17,11 @@ router.post("/update/:studentId", StudentController.updateStudent);
 
 router.post("/password/:studentId", StudentController.updateStudentPassword);
 
-router.post("/forgot/:studentId", StudentController.forgetStudentPassword);
+router.post("/forget", StudentController.forgetStudentPassword);
 
+router.post("/reset", StudentController.resetStudentPassword);
 
+router.post("/register", StudentController.registerStudentForEvent);
 
 
 

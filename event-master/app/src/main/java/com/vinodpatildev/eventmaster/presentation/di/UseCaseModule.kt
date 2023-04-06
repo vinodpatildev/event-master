@@ -50,4 +50,24 @@ class UseCaseModule {
     fun provideUpdateStudentPasswordUseCase(repository: Repository) : UpdateStudentPasswordUseCase {
         return UpdateStudentPasswordUseCase(repository)
     }
+
+    @Singleton
+    @Provides
+    fun provideForgetStudentPasswordUseCase(repository:Repository) : ForgetStudentPasswordUseCase {
+        return ForgetStudentPasswordUseCase(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideResetStudentPasswordUseCase(repository:Repository) : ResetStudentPasswordUseCase {
+        return ResetStudentPasswordUseCase(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRegisterEventStudentUseCase(repository: Repository) : RegisterEventStudentUseCase {
+        return RegisterEventStudentUseCase(repository)
+    }
+
 }
+

@@ -15,10 +15,13 @@ class ViewModelFactory(
     private val signUpStudentUseCase: SignUpStudentUseCase,
     private val signOutStudentUseCase: SignOutStudentUseCase,
     private val updateStudentDataUseCase: UpdateStudentDataUseCase,
-    private val updateStudentPasswordUseCase: UpdateStudentPasswordUseCase
+    private val updateStudentPasswordUseCase: UpdateStudentPasswordUseCase,
+    private val forgetStudentPasswordUseCase: ForgetStudentPasswordUseCase,
+    private val resetStudentPasswordUseCase: ResetStudentPasswordUseCase,
+    private val registerEventStudentUseCase: RegisterEventStudentUseCase
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
 //        return super.create(modelClass)
-        return ViewModel(app, preferencesManager, getEventsUseCase,getNotificationsUseCase, loginStudentUseCase, signUpStudentUseCase, signOutStudentUseCase, updateStudentDataUseCase,updateStudentPasswordUseCase ) as T
+        return ViewModel(app, preferencesManager, getEventsUseCase,getNotificationsUseCase, loginStudentUseCase, signUpStudentUseCase, signOutStudentUseCase, updateStudentDataUseCase,updateStudentPasswordUseCase, forgetStudentPasswordUseCase, resetStudentPasswordUseCase, registerEventStudentUseCase ) as T
     }
 }
