@@ -28,7 +28,8 @@ interface SignUpBody {
     year:String,
     department:String,
     division:String,
-    passing_year:String
+    passing_year:String,
+    profile_image_url:String,
 }
 
 export const  signUp : RequestHandler<unknown, unknown, SignUpBody, unknown> = async (req, res, next) => {
@@ -43,6 +44,7 @@ export const  signUp : RequestHandler<unknown, unknown, SignUpBody, unknown> = a
     const department = req.body.department;
     const division = req.body.division;
     const passing_year = req.body.passing_year;
+    const profile_image_url = req.body.profile_image_url;
 
     try {
         if(!username || !email || !passwordRaw){
@@ -74,7 +76,8 @@ export const  signUp : RequestHandler<unknown, unknown, SignUpBody, unknown> = a
             year:year,
             department:department,
             division:division,
-            passing_year:passing_year
+            passing_year:passing_year,
+            profile_image_url:profile_image_url
         });
 
         req.session.userSessionId = newStudent._id;
@@ -144,7 +147,8 @@ interface UpdateStudentBody{
     year:string,
     department: string,
     division: string,
-    passing_year: string
+    passing_year: string,
+    profile_image_url:string,
 }
 
 export const updateStudent: RequestHandler<UpdateStudentParams, unknown, UpdateStudentBody, unknown> = async(req, res, next) => {
@@ -157,6 +161,7 @@ export const updateStudent: RequestHandler<UpdateStudentParams, unknown, UpdateS
     const newYear = req.body.year;
     const newDivision = req.body.division;
     const newPassingYear = req.body.passing_year;
+    const new_profile_image_url = req.body.profile_image_url;
 
     try{
         assertIsDefined(authenticatedStudentId);
@@ -180,6 +185,7 @@ export const updateStudent: RequestHandler<UpdateStudentParams, unknown, UpdateS
         student.year = newYear;
         student.division = newDivision;
         student.passing_year = newPassingYear;
+        student.profile_image_url = new_profile_image_url;
 
         const updatedStudent = await student.save();
 
@@ -404,5 +410,42 @@ export const registerStudentForEvent: RequestHandler<unknown, unknown, RegisterS
 }
 
 
+interface UpdateStudentProfilePictureBody {
+    userId: string,
+    url: string
+}
+
+export const updateStudentProfilePicture: RequestHandler<unknown, unknown, UpdateStudentProfilePictureBody, unknown> = async(req, res, next) => {
+    const authenticatedStudentId = req.session.userSessionId;
+    const studentId = req.body.userId;
+    const url = req.body.url;
+    console.log("sessionid: "+authenticatedStudentId)
+    console.log("studentId: "+studentId)
+    console.log("      url: "+url)
 
 
+    try{
+        assertIsDefined(authenticatedStudentId);
+        if(!mongoose.isValidObjectId(studentId)){
+            throw createHttpError(400, "Invalid student id. ")
+        }
+        
+        const student = await StudentModel.findById(studentId).exec();
+
+        if(!student){
+            throw createHttpError(404,"Student not found")
+        }
+        if(!student._id.equals(authenticatedStudentId)){
+            throw createHttpError(401,"You cannot access this student data.");
+        }
+
+        student.profile_image_url = url;
+
+        await student.save();
+        
+        res.status(200).json(url);
+
+    }catch(error){
+        next(error);
+    }
+}

@@ -4,10 +4,9 @@
     android:shape="rectangle">
 
     <stroke
-        android:width="@dimen/image_border_stroke_size"
+        android:width="1dp"
         android:color="@color/secondary_text_color" />
 
     <solid android:color="@color/white_color" />
-
     <corners android:radius="@dimen/add_place_image_shape_radius" />
 </shape>

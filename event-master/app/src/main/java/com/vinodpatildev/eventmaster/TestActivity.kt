@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.messaging.FirebaseMessaging
 import com.vinodpatildev.eventmaster.data.util.Resource
 import com.vinodpatildev.eventmaster.presentation.viewmodel.ViewModel
 import com.vinodpatildev.eventmaster.presentation.viewmodel.ViewModelFactory
@@ -19,21 +20,9 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class TestActivity : AppCompatActivity() {
-    var tvResult : TextView? = null
-    var btnRun : Button? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
-
-
-        tvResult = findViewById(R.id.tv_result);
-        btnRun = findViewById(R.id.btnGetApiResult);
-
-
-        btnRun?.setOnClickListener {
-
-        }
 
     }
 }

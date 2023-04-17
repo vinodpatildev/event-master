@@ -1,33 +1,34 @@
 package com.vinodpatildev.eventmaster.data.model
 
+import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-
+@Entity(tableName = "notifications")
 data class Notification(
     @SerializedName("db_version")
-    val __v: Int,
+    val __v: Int?,
     @PrimaryKey
     @SerializedName("_id")
     val _id: String,
     @SerializedName("adminId")
-    val adminId: String,
+    val adminId: String?,
     @SerializedName("body")
-    val body: String,
+    val body: String?,
     @SerializedName("channel")
-    val channel: String,
+    val channel: String?,
     @SerializedName("createdAt")
-    val createdAt: String,
+    val createdAt: String?,
     @SerializedName("eventId")
-    val eventId: String,
+    val eventId: String?,
     @SerializedName("priority")
-    val priority: String,
+    val priority: String?,
     @SerializedName("timestamp")
-    val timestamp: String,
+    val timestamp: String?,
     @SerializedName("title")
-    val title: String,
+    val title: String?,
     @SerializedName("type")
-    val type: String,
+    val type: String?,
     @SerializedName("updatedAt")
-    val updatedAt: String
+    val updatedAt: String?
 )

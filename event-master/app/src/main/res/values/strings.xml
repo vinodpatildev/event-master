@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Event Master</string>
+    <string name="google_maps_key">AIzaSyBJLhfjH4DYyYuJjDZ9_gcmiecrSH1XNk0</string>
+
+
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -52,6 +55,18 @@
         <item>2024</item>
         <item>2025</item>
         <item>2026</item>
+    </string-array>
+
+    <string-array name="type_options">
+        <item>Coding Event</item>
+        <item>Sport Event</item>
+        <item>Essay Writing Event</item>
+        <item>Speech Competition</item>
+        <item>Game Competition</item>
+        <item>Competitive Coding Event</item>
+        <item>Ideathon Event</item>
+        <item>Guest Lecture Event</item>
+
     </string-array>
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>

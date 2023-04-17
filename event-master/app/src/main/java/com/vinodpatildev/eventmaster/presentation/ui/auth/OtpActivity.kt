@@ -32,10 +32,25 @@ class OtpActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory ).get(ViewModel::class.java)
 
         progressDialog = ProgressDialog(this)
-        progressDialog.setMessage("Signing in....")
+        progressDialog.setMessage("Submitting OTP....")
         progressDialog.setCancelable(false)
 
-        viewModel.resetPasswordResult.observe(this, Observer { response->
+        viewModel.viewModelUpdated.observe(this, Observer { response->
+            when(response){
+                is Resource.Success->{
+                    binding.btnReset.isEnabled = true
+                }
+                is Resource.Loading->{
+                    binding.btnReset.isEnabled = false
+                }
+                else -> {
+                    binding.btnReset.isEnabled = true
+                }
+            }
+        })
+
+
+        viewModel.resetPasswordResultStudent.observe(this, Observer { response->
             when(response){
                 is Resource.Success->{
                     progressDialog.hide()
@@ -60,6 +75,32 @@ class OtpActivity : AppCompatActivity() {
                 }
             }
         })
+        viewModel.resetPasswordResultAdmin.observe(this, Observer { response->
+            when(response){
+                is Resource.Success->{
+                    progressDialog.hide()
+                    Snackbar.make(binding.root,"Password updated successfully.",Snackbar.LENGTH_LONG).show()
+                    response.data?.let {
+                        Handler().postDelayed({
+//                            startActivity(Intent(this@OtpActivity, SignInActivity::class.java))
+                            finish()
+                        },TIME_OUT)
+
+                    }
+
+                }
+                is Resource.Loading->{
+                    progressDialog.show()
+                }
+                is Resource.Error->{
+                    progressDialog.hide()
+                    response.message?.let{
+                        Snackbar.make(binding.root,"Error Occured:$it", Snackbar.LENGTH_LONG).show()
+                    }
+                }
+            }
+        })
+
         binding.btnReset.setOnClickListener {
             if (binding.etEmail.text?.trim().toString().isEmpty() || binding.etNewPasswordConfirm.text?.trim().toString().length < 6) {
                 binding.etEmail.error = "Please enter email."
@@ -78,8 +119,21 @@ class OtpActivity : AppCompatActivity() {
                 val newPassword = binding.etNewPassword.text?.trim().toString()
                 val otp = binding.etOtp.text?.trim().toString()
 
-                viewModel.resetStudentPassword(email, newPassword, otp)
+                when(viewModel.user){
+                    "admin" -> {
+                        Snackbar.make(binding.root,"admin submitting otp.",Snackbar.LENGTH_LONG).show()
+                        viewModel.resetPasswordAdmin(email, newPassword, otp)
+                    }
+                    "student" -> {
+                        Snackbar.make(binding.root,"admin submitting otp.",Snackbar.LENGTH_LONG).show()
+                        viewModel.resetPasswordStudent(email, newPassword, otp)
+                    }
+                }
             }
+        }
+        binding.txtSignin.setOnClickListener {
+            startActivity(Intent(this,SignInActivity::class.java))
+            finish()
         }
     }
 }

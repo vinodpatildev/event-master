@@ -13,7 +13,7 @@ import javax.inject.Singleton
 //
 //    @Singleton
 //    @Provides
-//    fun provideNewsAdapter():NewsAdapter{
-//        return NewsAdapter()
+//    fun provideAdapter():Adapter{
+//        return Adapter()
 //    }
 //}

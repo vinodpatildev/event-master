@@ -29,8 +29,13 @@ data class Student(
     @SerializedName("username")
     val username: String,
     @SerializedName("year")
-    val year: String
-): Serializable {
+    val year: String,
+    @SerializedName("present")
+    val present:Boolean,
+    @SerializedName("profile_image_url")
+    val profile_image_url:String,
+
+    ): Serializable {
     companion object {
         val TAG = "student"
     }

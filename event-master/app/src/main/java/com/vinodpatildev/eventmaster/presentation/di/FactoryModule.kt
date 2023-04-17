@@ -15,20 +15,69 @@ import javax.inject.Singleton
 class FactoryModule {
     @Singleton
     @Provides
-    fun provideNewsViewModelFactory(
+    fun provideViewModelFactory(
         application: Application,
         preferencesManager: PreferencesManager,
         getEventsUseCase: GetEventsUseCase,
+        reloadEventsUseCase : ReloadEventsUseCase,
         getNotificationsUseCase: GetNotificationsUseCase,
+        reloadNotificationsUseCase: ReloadNotificationsUseCase,
         loginStudentUseCase: SignInStudentUseCase,
         signUpStudentUseCase: SignUpStudentUseCase,
         signOutStudentUseCase: SignOutStudentUseCase,
-        updateStudentDataUseCase: UpdateStudentDataUseCase,
-        updateStudentPasswordUseCase: UpdateStudentPasswordUseCase,
-        forgetStudentPasswordUseCase: ForgetStudentPasswordUseCase,
-        resetStudentPasswordUseCase: ResetStudentPasswordUseCase,
-        registerEventStudentUseCase: RegisterEventStudentUseCase
+        updateDataStudentUseCase: UpdateDataStudentUseCase,
+        updatePasswordStudentUseCase: UpdatePasswordStudentUseCase,
+        forgetPasswordStudentUseCase: ForgetPasswordStudentUseCase,
+        updatePasswordAdminUseCase: UpdatePasswordAdminUseCase,
+        resetPasswordStudentUseCase: ResetPasswordStudentUseCase,
+        registerEventStudentUseCase: RegisterEventStudentUseCase,
+        downloadEventCertificateStudentUseCase: DownloadEventCertificateStudentUseCase,
+        getEventsRegisteredStudentUseCase: GetEventsRegisteredStudentUseCase,
+        reloadEventsRegisteredStudentUseCase: ReloadEventsRegisteredStudentUseCase,
+        signInAdminUseCase : SignInAdminUseCase,
+        registerAdminBySuperAdminUseCase: RegisterAdminBySuperAdminUseCase,
+        signOutAdminUseCase: SignOutAdminUseCase,
+        getEventsCreatedAdminUseCase: GetEventsCreatedAdminUseCase,
+        reloadEventsCreatedAdminUseCase: ReloadEventsCreatedAdminUseCase,
+        createEventByAdminUseCase: CreateEventByAdminUseCase,
+        getEventReportAdminUseCase: GetEventReportAdminUseCase,
+        uploadProfilePictureUseCase: UploadProfilePictureUseCase,
+        updateProfilePictureStudentUseCase:UpdateProfilePictureStudentUseCase,
+        updateProfilePictureAdminUseCase:UpdateProfilePictureAdminUseCase,
+        forgetPasswordAdminUseCase : ForgetPasswordAdminUseCase,
+        resetPasswordAdminUseCase : ResetPasswordAdminUseCase
+
     ): ViewModelFactory {
-        return ViewModelFactory(application, preferencesManager ,getEventsUseCase, getNotificationsUseCase ,loginStudentUseCase, signUpStudentUseCase, signOutStudentUseCase, updateStudentDataUseCase, updateStudentPasswordUseCase, forgetStudentPasswordUseCase,resetStudentPasswordUseCase, registerEventStudentUseCase)
+        return ViewModelFactory(application,
+            preferencesManager,
+            getEventsUseCase,
+            reloadEventsUseCase,
+            getNotificationsUseCase,
+            reloadNotificationsUseCase,
+            loginStudentUseCase,
+            signUpStudentUseCase,
+            signOutStudentUseCase,
+            updateDataStudentUseCase,
+            updatePasswordStudentUseCase,
+            updatePasswordAdminUseCase,
+            forgetPasswordStudentUseCase,
+            resetPasswordStudentUseCase,
+            registerEventStudentUseCase,
+            downloadEventCertificateStudentUseCase,
+            getEventsRegisteredStudentUseCase,
+            reloadEventsRegisteredStudentUseCase,
+            signInAdminUseCase,
+            registerAdminBySuperAdminUseCase,
+            signOutAdminUseCase,
+            getEventsCreatedAdminUseCase,
+            reloadEventsCreatedAdminUseCase,
+            createEventByAdminUseCase,
+            getEventReportAdminUseCase,
+            uploadProfilePictureUseCase,
+            updateProfilePictureStudentUseCase,
+            updateProfilePictureAdminUseCase,
+            forgetPasswordAdminUseCase,
+            resetPasswordAdminUseCase
+        )
     }
 }

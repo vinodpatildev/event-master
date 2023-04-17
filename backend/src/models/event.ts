@@ -16,6 +16,9 @@ const eventSchema = new Schema({
     event_link: {type: String},
     start: { type: Date, required: true },
     end: { type: Date, required: true },
+    location :{type:String},
+    longitude:{type:String},
+    latitude:{type:String},
     state: {
         type: String,
         enum: Object.values(EventState),

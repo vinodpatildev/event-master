@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".presentation.ui.event.details.EventReportActivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    >
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="0dp"
+    android:background="@color/colorTextLight"
+    >
+
+    <LinearLayout
+        android:id="@+id/cardEventDetails"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5">
+
+        <ImageView
+            android:id="@+id/ivEventPicture"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:layout_marginBottom="16dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/placeholder_image2"
+            android:visibility="gone"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvEventFieldId"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Event ID"
+                android:textColor="@color/primary_text_color"
+                android:textSize="@dimen/item_happy_place_title_textSize"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvEventReportFieldIdValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text=""
+                android:textColor="@color/item_happy_place_description_text_color"
+                android:textSize="@dimen/item_happy_place_title_textSize"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvEventStatus"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Status"
+                android:textColor="@color/primary_text_color"
+                android:textSize="@dimen/item_happy_place_title_textSize"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvEventReprtFieldStatusValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text=""
+                android:textColor="@color/item_happy_place_description_text_color"
+                android:textSize="@dimen/item_happy_place_title_textSize"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvEventFieldTitle"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Event Name"
+                android:textColor="@color/primary_text_color"
+                android:textSize="@dimen/item_happy_place_title_textSize"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvEventReportFieldTitleValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text=""
+                android:textColor="@color/item_happy_place_description_text_color"
+                android:textSize="@dimen/item_happy_place_title_textSize"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        android:background="@color/colorTextLight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="8dp"
+        app:layout_constraintTop_toBottomOf="@id/cardEventDetails"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/event_report_student_list_card_shimmer" />
+
+                <include layout="@layout/event_report_student_list_card_shimmer" />
+
+                <include layout="@layout/event_report_student_list_card_shimmer" />
+
+                <include layout="@layout/event_report_student_list_card_shimmer" />
+
+                <include layout="@layout/event_report_student_list_card_shimmer" />
+
+                <include layout="@layout/event_report_student_list_card_shimmer" />
+
+                <include layout="@layout/event_report_student_list_card_shimmer" />
+
+                <include layout="@layout/event_report_student_list_card_shimmer" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRegisteredCreatedEventList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        android:background="@color/colorTextLight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="8dp"
+        app:layout_constraintTop_toBottomOf="@id/cardEventDetails"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/event_report_student_list_card"
+        android:visibility="gone"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>

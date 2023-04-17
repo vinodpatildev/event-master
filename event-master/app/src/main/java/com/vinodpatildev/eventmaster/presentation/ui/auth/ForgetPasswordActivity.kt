@@ -22,7 +22,6 @@ class ForgetPasswordActivity : AppCompatActivity() {
 
     private lateinit var progressDialog: ProgressDialog
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityForgetPasswordBinding.inflate(layoutInflater)
@@ -34,7 +33,21 @@ class ForgetPasswordActivity : AppCompatActivity() {
         progressDialog.setMessage("Signing in....")
         progressDialog.setCancelable(false)
 
-        viewModel.forgetPasswordResult.observe(this, Observer { response->
+        viewModel.viewModelUpdated.observe(this, Observer { response->
+            when(response){
+                is Resource.Success->{
+                    binding.btnGetPasswordEmail.isEnabled = true
+                }
+                is Resource.Loading->{
+                    binding.btnGetPasswordEmail.isEnabled = false
+                }
+                else -> {
+                    binding.btnGetPasswordEmail.isEnabled = true
+                }
+            }
+        })
+
+        viewModel.forgetPasswordResultStudent.observe(this, Observer { response->
             when(response){
                 is Resource.Success->{
                     progressDialog.hide()
@@ -54,8 +67,26 @@ class ForgetPasswordActivity : AppCompatActivity() {
                 }
             }
         })
-
-
+        viewModel.forgetPasswordResultAdmin.observe(this, Observer { response->
+            when(response){
+                is Resource.Success->{
+                    progressDialog.hide()
+                    response.data?.let {
+                        startActivity(Intent(this@ForgetPasswordActivity, OtpActivity::class.java))
+                        finish()
+                    }
+                }
+                is Resource.Loading->{
+                    progressDialog.show()
+                }
+                is Resource.Error->{
+                    progressDialog.hide()
+                    response.message?.let{
+                        Snackbar.make(binding.root,"Error Occured:$it", Snackbar.LENGTH_LONG).show()
+                    }
+                }
+            }
+        })
         binding.btnGetPasswordEmail.setOnClickListener {
             if (binding.etUsername.text?.trim().toString().isEmpty()) {
                 binding.etUsername.error = "Please enter a valid username."
@@ -67,8 +98,20 @@ class ForgetPasswordActivity : AppCompatActivity() {
                 val username = binding.etUsername.text?.trim().toString()
                 val password = binding.etEmail.text?.trim().toString()
 
-                viewModel.forgetStudentPassword(username,password)
+                when(viewModel.user){
+                    "admin" -> {
+                        Snackbar.make(binding.root,"admin requsting otp.",Snackbar.LENGTH_LONG).show()
+                        viewModel.forgetPasswordAdmin(username,password)
+                    }
+                    "student" -> {
+                        Snackbar.make(binding.root,"student requsting otp.",Snackbar.LENGTH_LONG).show()
+                        viewModel.forgetPasswordStudent(username,password)
+                    }
+                }
             }
+        }
+        binding.txtSignin.setOnClickListener {
+            finish()
         }
     }
 }

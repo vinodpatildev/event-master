@@ -30,6 +30,8 @@ data class FilterPreferences(
     val department:String,
     val division:String,
     val passing_year:String,
+    val profile_image_url:String,
+    val modified:String,
 )
 @Singleton
 class PreferencesManager @Inject constructor(@ApplicationContext context: Context) {
@@ -59,6 +61,8 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
             val department = preferences[PreferencesKeys.DEPARTMENT]?:""
             val division = preferences[PreferencesKeys.DIVISION]?:""
             val passing_year = preferences[PreferencesKeys.PASSING_YEAR]?:""
+            val profile_image_url = preferences[PreferencesKeys.PROFILE_IMAGE_URL]?:""
+            val modified = preferences[PreferencesKeys.MODIFIED]?:""
 
             FilterPreferences(
                 cookies,
@@ -75,7 +79,9 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
                 year,
                 department,
                 division,
-                passing_year
+                passing_year,
+                profile_image_url,
+                modified
             )
         }
     suspend fun updateUserStudentData(cookies: String,
@@ -92,7 +98,9 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
                                       year:String,
                                       department:String,
                                       division:String,
-                                      passing_year:String){
+                                      passing_year:String,
+                                      profile_image_url:String,
+    ){
         dataStore.edit { preferences->
             preferences[PreferencesKeys.COOKIES] = cookies
             preferences[PreferencesKeys.IS_USER_LOGGED_IN] = isUserLoggedIn
@@ -109,6 +117,18 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
             preferences[PreferencesKeys.DEPARTMENT] = department
             preferences[PreferencesKeys.DIVISION] = division
             preferences[PreferencesKeys.PASSING_YEAR] = passing_year
+            preferences[PreferencesKeys.PROFILE_IMAGE_URL] = profile_image_url
+        }
+    }
+
+    suspend fun onModified(modified: String){
+        dataStore.edit { preferences->
+            preferences[PreferencesKeys.MODIFIED] = modified
+        }
+    }
+    suspend fun currentUser(user: String){
+        dataStore.edit { preferences->
+            preferences[PreferencesKeys.USER_TYPE] = user
         }
     }
     object PreferencesKeys{
@@ -127,5 +147,7 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
         val DEPARTMENT = preferencesKey<String>("department")
         val DIVISION = preferencesKey<String>("division")
         val PASSING_YEAR = preferencesKey<String>("passing_year")
+        val PROFILE_IMAGE_URL = preferencesKey<String>("profile_image_url")
+        val MODIFIED = preferencesKey<String>("modified")
     }
 }

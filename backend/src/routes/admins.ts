@@ -12,4 +12,13 @@ router.post("/login",AdminController.login);
 
 router.post("/logout",AdminController.logout);
 
+router.post("/notify",AdminController.sendNotification);
+
+router.post("/updateProfilePicture", AdminController.updateAdminProfilePicture);
+
+router.post("/forget", AdminController.forgetAdminPassword);
+
+router.post("/reset", AdminController.resetAdminPassword);
+
+
 export default router;

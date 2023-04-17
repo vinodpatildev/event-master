@@ -23,6 +23,7 @@ router.post("/reset", StudentController.resetStudentPassword);
 
 router.post("/register", StudentController.registerStudentForEvent);
 
+router.post("/updateProfilePicture", StudentController.updateStudentProfilePicture);
 
 
 export default router;

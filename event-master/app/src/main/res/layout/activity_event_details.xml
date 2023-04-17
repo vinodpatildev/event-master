@@ -11,30 +11,27 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
+        android:padding="8dp"
         app:layout_constraintBottom_toTopOf="@id/llButtons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5"
-        android:padding="8dp"
-        >
+        app:layout_constraintVertical_bias="0.5">
 
         <ImageView
             android:id="@+id/ivEventPicture"
             android:layout_width="match_parent"
             android:layout_height="240dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/placeholder_image2"
             android:layout_marginBottom="16dp"
-            />
+            android:scaleType="fitXY"
+            android:src="@drawable/placeholder_image2" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginVertical="4dp"
-            >
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvEventFieldId"
@@ -49,9 +46,9 @@
                 android:id="@+id/tvEventFieldIdValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:text=""
                 android:textColor="@color/item_happy_place_description_text_color"
                 android:textSize="@dimen/item_happy_place_title_textSize"
                 android:textStyle="bold" />
@@ -62,9 +59,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginVertical="4dp"
-            >
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvEventStatus"
@@ -79,9 +75,9 @@
                 android:id="@+id/tvEventFieldStatusValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:text=""
                 android:textColor="@color/item_happy_place_description_text_color"
                 android:textSize="@dimen/item_happy_place_title_textSize"
                 android:textStyle="bold" />
@@ -90,41 +86,39 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvEventFieldTitle"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Event Name"
+                android:textColor="@color/primary_text_color"
+                android:textSize="@dimen/item_happy_place_title_textSize"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvEventFieldTitleValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginVertical="4dp"
-            >
-
-                <TextView
-                    android:id="@+id/tvEventFieldTitle"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="Event Name"
-                    android:textColor="@color/primary_text_color"
-                    android:textSize="@dimen/item_happy_place_title_textSize"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tvEventFieldTitleValue"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:textColor="@color/item_happy_place_description_text_color"
-                    android:textSize="@dimen/item_happy_place_title_textSize"
-                    android:textStyle="bold" />
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text=""
+                android:textColor="@color/item_happy_place_description_text_color"
+                android:textSize="@dimen/item_happy_place_title_textSize"
+                android:textStyle="bold" />
 
 
-            </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginVertical="4dp"
-            >
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvEventFieldType"
@@ -139,9 +133,9 @@
                 android:id="@+id/tvEventFieldTypeValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:text=""
                 android:textColor="@color/item_happy_place_description_text_color"
                 android:textSize="@dimen/item_happy_place_title_textSize"
                 android:textStyle="bold" />
@@ -152,9 +146,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginVertical="4dp"
-            >
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvEventFieldDepartment"
@@ -169,9 +162,9 @@
                 android:id="@+id/tvEventFieldDepartmentValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:text=""
                 android:textColor="@color/item_happy_place_description_text_color"
                 android:textSize="@dimen/item_happy_place_title_textSize"
                 android:textStyle="bold" />
@@ -182,9 +175,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginVertical="4dp"
-            >
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvEventFieldOrganiser"
@@ -199,9 +191,37 @@
                 android:id="@+id/tvEventFieldOrganiserValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:text=""
+                android:textColor="@color/item_happy_place_description_text_color"
+                android:textSize="@dimen/item_happy_place_title_textSize"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvEventFieldLocation"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Location"
+                android:textColor="@color/primary_text_color"
+                android:textSize="@dimen/item_happy_place_title_textSize"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvEventFieldLocationValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text=""
                 android:textColor="@color/item_happy_place_description_text_color"
                 android:textSize="@dimen/item_happy_place_title_textSize"
                 android:textStyle="bold" />
@@ -212,9 +232,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginVertical="4dp"
-            >
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvEventFieldStartTime"
@@ -229,9 +248,9 @@
                 android:id="@+id/tvEventFielStartTimeValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:text=""
                 android:textColor="@color/item_happy_place_description_text_color"
                 android:textSize="@dimen/item_happy_place_title_textSize"
                 android:textStyle="bold" />
@@ -242,9 +261,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginVertical="4dp"
-            >
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvEventFieldEndTime"
@@ -259,9 +277,9 @@
                 android:id="@+id/tvEventFieldEndTimeValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:text=""
                 android:textColor="@color/item_happy_place_description_text_color"
                 android:textSize="@dimen/item_happy_place_title_textSize"
                 android:textStyle="bold" />
@@ -271,8 +289,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginVertical="4dp">
+            android:layout_marginVertical="4dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvEventFieldDescription"
@@ -287,9 +305,9 @@
                 android:id="@+id/tvEventFieldDescriptionValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
                 android:ellipsize="end"
                 android:maxLines="6"
+                android:text=""
                 android:textColor="@color/item_happy_place_description_text_color"
                 android:textSize="@dimen/item_happy_place_title_textSize"
                 android:textStyle="bold" />
@@ -305,27 +323,33 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="8dp"
+        android:gravity="center_vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/btnRegisterForEvent"
+            android:id="@+id/btnRegisterAttendDownloadCertificateEvent"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/item_happy_place_ll_marginEnd"
+            android:layout_height="75dp"
+            android:layout_marginHorizontal="5dp"
             android:layout_weight="1"
             android:text="Register"
+            android:textSize="16sp"
+            android:textStyle="bold"
             />
 
         <Button
             android:id="@+id/btnShareEvent"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/item_happy_place_ll_marginStart"
+            android:layout_height="75dp"
+            android:layout_marginHorizontal="5dp"
             android:layout_weight="1"
-            android:text="Share" />
+            android:text="Share"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            />
 
     </LinearLayout>
 

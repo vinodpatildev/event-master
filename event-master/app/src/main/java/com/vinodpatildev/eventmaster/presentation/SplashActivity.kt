@@ -8,7 +8,7 @@ import com.vinodpatildev.eventmaster.R
 import com.vinodpatildev.eventmaster.presentation.ui.auth.SignInActivity
 
 class SplashActivity : AppCompatActivity() {
-    private var TIME_OUT:Long = 3000
+    private var TIME_OUT:Long = 1000
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)

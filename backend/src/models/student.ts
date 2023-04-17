@@ -6,6 +6,7 @@ const studentSchema = new Schema({
     password: { type : String, required: true, select: false },
     registration_no: { type: String },
     name: { type: String },
+    profile_image_url: {type:String},
     dob: { type: String },
     mobile: {type: String },
     year: {type:String },
@@ -13,6 +14,7 @@ const studentSchema = new Schema({
     division: {type: String },
     passing_year: {type: String },
     otp:{ type:String, default:'', select:false },
+    present: { type: Boolean, default: false },
     events_registered: [
         {
           event: {

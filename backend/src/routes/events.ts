@@ -1,21 +1,27 @@
 import express from 'express';
-import moment from 'moment';
 import * as EventsController from '../controllers/events';
-import EventModel, { EventState } from '../models/event';
 
 const router = express.Router();
 
 router.get("/", EventsController.getAllEvents);
 
-router.get("/admin/", EventsController.getEventsByAdmin);
+router.get("/registered/:studentId", EventsController.getAllRegisteredEvents);
+
+router.get("/created/:adminId", EventsController.getAllCreatedEventsByAdmin)
+
+router.post("/certificate", EventsController.getEventCertificate);
+
+router.get("/admin", EventsController.getEventsByAdmin);
 
 router.get("/:eventId", EventsController.getEventByAdmin);
 
-router.post("/", EventsController.createEventByAdmin);
+router.post("/:adminId", EventsController.createEventByAdmin);
 
 router.patch("/:eventId", EventsController.updateEventByAdmin);
 
 router.delete("/:eventId", EventsController.deleteEventByAdmin);
+
+router.get("/report/:eventId", EventsController.getEventReportAdmin);
 
 // async function transitionEvents() {
 //     try {

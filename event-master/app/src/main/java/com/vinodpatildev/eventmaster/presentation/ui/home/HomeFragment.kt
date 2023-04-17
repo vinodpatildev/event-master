@@ -13,7 +13,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.vinodpatildev.eventmaster.R
 import com.vinodpatildev.eventmaster.data.model.Event
 import com.vinodpatildev.eventmaster.data.model.Notification
@@ -55,24 +57,49 @@ class HomeFragment : Fragment() {
         mainActivity.viewModel.eventList.observe(viewLifecycleOwner, Observer { response ->
             when(response){
                 is Resource.Success -> {
+                    binding?.rvHomeEventList?.visibility = View.VISIBLE
                     binding?.rvHomeEventList?.adapter = EventListAdapter(this.requireContext(),response.data!!) { clickedEvent: Event ->
                         onEventCardClicked(clickedEvent)
                     }
-                    progressDialog.hide()
+//                    progressDialog.hide()
+                    binding?.shimmerViewContainer?.stopShimmer()
+                    if(binding?.swipeRefreshLayout?.isRefreshing == true){
+                        binding?.swipeRefreshLayout?.isRefreshing = false
+                    }
                 }
                 is Resource.Loading -> {
-                    progressDialog.show()
+//                    progressDialog.show()
+                    binding?.shimmerViewContainer?.startShimmer()
                 }
                 is Resource.Error -> {
                     binding?.rvHomeEventList?.adapter = EventListAdapter(this.requireContext(),listOf<Event>()) { clickedEvent: Event ->
                         onEventCardClicked(clickedEvent)
                     }
-                    progressDialog.hide()
+//                    progressDialog.hide()
+                    binding?.shimmerViewContainer?.stopShimmer()
                     Toast.makeText(context,response.message,Toast.LENGTH_SHORT).show()
                 }
             }
 
         })
+
+        binding?.swipeRefreshLayout?.setOnRefreshListener {
+            // Load data here
+            // Once data is loaded, call swipeRefreshLayout.isRefreshing = false to stop the refreshing animation
+            binding?.rvHomeEventList?.visibility = View.GONE
+            mainActivity.viewModel.reloadEvents()
+        }
+        val itemTouchHelper = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.DOWN) {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                binding?.swipeRefreshLayout?.isRefreshing = true
+                binding?.swipeRefreshLayout?.setOnRefreshListener(null)
+            }
+        }
+        ItemTouchHelper(itemTouchHelper).attachToRecyclerView(binding?.rvHomeEventList)
     }
 
     private fun onEventCardClicked(clickedEvent: Event) {

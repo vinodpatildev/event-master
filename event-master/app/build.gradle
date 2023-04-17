@@ -5,6 +5,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.gms.google-services'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -40,10 +41,15 @@ android {
 
 dependencies {
     implementation 'androidx.preference:preference:1.2.0'
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.3'
+    implementation 'com.google.firebase:firebase-storage-ktx:20.0.1'
     def lifecycle_version = "2.5.1"
     def nav_version = "2.5.2"
     def room_version = "2.4.3"
     def dataStoreVersion = "1.0.0-alpha02"
+
+    //Permissions dexter
+    implementation 'com.karumi:dexter:6.2.3'
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
@@ -121,5 +127,22 @@ dependencies {
     //DataStore
     // DataStore
     implementation "androidx.datastore:datastore-preferences:$dataStoreVersion"
+
+
+    //Google Maps SDK
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
+    //Google Places
+    implementation 'com.google.android.libraries.places:places:3.0.0'
+
+    //Shimmer effect
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    //Swipe refresher
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
+    //Ripple
+    implementation 'com.skyfishjy.ripplebackground:library:1.0.1'
 
 }

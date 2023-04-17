@@ -8,36 +8,46 @@ import java.io.Serializable
 @Entity(tableName="events")
 data class Event(
     @SerializedName("db_version")
-    val __v: Int,
+    val __v: Int?,
     @PrimaryKey
     @SerializedName("_id")
     val _id: String,
     @SerializedName("adminId")
-    val adminId: String,
+    val adminId: String?,
     @SerializedName("createdAt")
-    val createdAt: String,
+    val createdAt: String?,
     @SerializedName("department")
-    val department: String,
+    val department: String?,
     @SerializedName("description")
-    val description: String,
+    val description: String?,
     @SerializedName("end")
-    val end: String,
+    val end: String?,
     @SerializedName("eventLink")
-    val event_link: String,
+    val event_link: String?,
     @SerializedName("organizer")
-    val organizer: String,
+    val organizer: String?,
     @SerializedName("start")
-    val start: String,
+    val start: String?,
     @SerializedName("state")
-    val state: String,
+    val state: String?,
     @SerializedName("title")
-    val title: String,
+    val title: String?,
     @SerializedName("type")
-    val type: String,
+    val type : String?,
     @SerializedName("updatedAt")
-    val updatedAt: String
-) : Serializable {
+    val updatedAt : String?,
+    @SerializedName("location")
+    val location : String?,
+    @SerializedName("longitude")
+    val longitude : String?,
+    @SerializedName("latitude")
+    val latitude : String?,
+
+    ) : Serializable {
     companion object {
-        val TAG = "event"
+        val TAG = "event";
+        val UPCOMING = "upcoming_events";
+        val LIVE = "live_events";
+        val FINISHED = "finished_events";
     }
 }
