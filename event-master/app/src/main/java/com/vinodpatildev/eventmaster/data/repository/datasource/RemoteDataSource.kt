@@ -30,11 +30,9 @@ interface RemoteDataSource {
                                   passing_year: String,
                                   profile_image_url:String
     ): Response<Student>
-    suspend fun updatePasswordStudent(cookies: String,
-                                      studentId: String,
-                                      oldPassword: String,
-                                      newPassword: String):Response<Void>
+    suspend fun updatePasswordStudent(cookies: String, studentId: String, oldPassword: String, newPassword: String):Response<Void>
     suspend fun registerForEventStudent(cookies:String,studentId:String, eventId:String) : Response<Void>
+    suspend fun markAttendanceForEventStudent(cookies:String,studentId:String, eventId:String) : Response<Void>
 
     suspend fun downloadEventCertificateStudent(cookies:String,studentId:String, eventId:String): Response<ResponseBody>
 

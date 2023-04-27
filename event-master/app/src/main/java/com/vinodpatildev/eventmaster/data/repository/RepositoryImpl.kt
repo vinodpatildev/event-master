@@ -322,6 +322,18 @@ class RepositoryImpl(
         return Resource.Error(response.message())
     }
 
+    override suspend fun markAttendanceForEventStudent(
+        cookies: String,
+        studentId: String,
+        eventId: String
+    ): Resource<Boolean> {
+        val response = remoteDataSource.markAttendanceForEventStudent(cookies,studentId, eventId)
+        if(response.isSuccessful){
+            return Resource.Success(true)
+        }
+        return Resource.Error(response.message())
+    }
+
     override suspend fun downloadEventCertificateStudent(
         context: Context,
         cookies: String,

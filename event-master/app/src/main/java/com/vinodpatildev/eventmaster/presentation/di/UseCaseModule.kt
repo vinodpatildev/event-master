@@ -68,6 +68,11 @@ class UseCaseModule {
     fun provideRegisterEventStudentUseCase(repository: Repository) : RegisterEventStudentUseCase {
         return RegisterEventStudentUseCase(repository)
     }
+    @Singleton
+    @Provides
+    fun provideMarkAttendanceEventStudentUseCase(repository: Repository) : MarkAttendanceEventStudentUseCase {
+        return MarkAttendanceEventStudentUseCase(repository)
+    }
 
     @Singleton
     @Provides

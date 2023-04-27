@@ -6,6 +6,9 @@ import StudentModel from "../models/student";
 import EventModel from "../models/event";
 import bcrypt from "bcrypt";
 import { assertIsDefined } from '../util/assertIsDefined';
+import { sendNotificationToAdmin } from '../util/sendNotificationToAdmin';
+import { sendNotificationToStudent } from '../util/sendNotificationToStudent';
+import { sendNotificationToUser } from '../util/sendNotificationToUser';
 
 
 export const getAuthenticatedStudent: RequestHandler = async (req, res, next) => {
@@ -81,6 +84,8 @@ export const  signUp : RequestHandler<unknown, unknown, SignUpBody, unknown> = a
         });
 
         req.session.userSessionId = newStudent._id;
+
+        sendNotificationToAdmin("New student registered over EVENT MASTER...",newStudent.name!!)
 
         res.status(201).json(newStudent);
 
@@ -401,6 +406,75 @@ export const registerStudentForEvent: RequestHandler<unknown, unknown, RegisterS
 
         student.events_registered.push({event:event._id});
         await student.save();
+
+        sendNotificationToAdmin("New student registered for an event...",`${student.name} has registered for the event : ${event.title}`)
+
+        res.sendStatus(200)
+
+    }catch(error){
+        next(error);
+    }
+}
+
+interface MarkAttendanceStudentForEventBody{
+    studentId:string,
+    eventId:string,
+}
+
+export const markAttendanceStudentForEvent: RequestHandler<unknown, unknown, MarkAttendanceStudentForEventBody, unknown> = async(req, res, next) => {
+    const eventId = req.body.eventId;
+    const studentId = req.body.studentId;
+    const authenticatedStudentId = req.session.userSessionId
+
+    try {
+        if(!eventId || !studentId) {
+            throw createHttpError(400, "Parameters missing.");
+        }
+        assertIsDefined(authenticatedStudentId);
+        if(!mongoose.isValidObjectId(eventId)){
+            throw createHttpError(400, "Invalid event id. ")
+        }
+        if(!mongoose.isValidObjectId(studentId)){
+            throw createHttpError(400, "Invalid student id. ")
+        }
+
+        const student = await StudentModel.findById(studentId);
+        if (!student) {
+            return res.status(404).json({ message: "Student not found" });
+        }
+
+        if(!student._id.equals(authenticatedStudentId)){
+            throw createHttpError(401,"You cannot register this for this event.");
+        }
+
+        const event = await EventModel.findById(eventId).select("+attendees").exec();
+        if (!event) {
+            return res.status(404).json({ message: "Event not found" });
+        }
+
+        if (event.attendees.some((a) => a.student.toString() === studentId)) {
+            const at = event.attendees.find((a) => a.student.toString() === studentId);
+            if(at && at.present == true) {
+                return res
+                        .status(400)
+                        .json({ message: "Student already marked present for this event" });
+            }
+            if(at) at.present = true;
+        }
+
+        await event.save();
+        
+        if(student.events_attended.some((a) => a.event.toString() == eventId)) {
+            return res
+              .status(400)
+              .json({ message: "Student already marked attendance for this event" }); 
+        }
+
+        student.events_attended.push({event:event._id});
+
+        await student.save();
+
+        sendNotificationToAdmin("Attendance marked!!",`${student.name} attended event ${event.title}`)
 
         res.sendStatus(200)
 

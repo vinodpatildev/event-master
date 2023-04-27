@@ -12,6 +12,7 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
+
     @GET("api/events")
     suspend fun getEvents(
         @Header("Cookie") sessionIdAndToken: String
@@ -63,6 +64,12 @@ interface ApiService {
 
     @POST("api/students/register")
     suspend fun registerForEventStudent(
+        @Header("Cookie") sessionIdAndToken: String,
+        @Body registerEventStudentRequest: RegisterEventStudentRequest
+    ) : Response<Void>
+
+    @POST("api/students/mark")
+    suspend fun markAttendanceForEventStudent(
         @Header("Cookie") sessionIdAndToken: String,
         @Body registerEventStudentRequest: RegisterEventStudentRequest
     ) : Response<Void>
@@ -143,7 +150,6 @@ interface ApiService {
     suspend fun resetPasswordAdmin(
         @Body resetPasswordRequest: ResetPasswordRequest
     ):Response<Void>
-
 }
 
 data class SignInRequest(

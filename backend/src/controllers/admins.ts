@@ -4,8 +4,10 @@ import { RequestHandler } from "express";
 import createHttpError from 'http-errors';
 import AdminModel from "../models/admin";
 import bcrypt from "bcrypt";
-import admin from "../util/firebaseAdmin";
 import { assertIsDefined } from '../util/assertIsDefined';
+import { sendNotificationToAdmin } from '../util/sendNotificationToAdmin';
+import { sendNotificationToStudent } from '../util/sendNotificationToStudent';
+import { sendNotificationToUser } from '../util/sendNotificationToUser';
 
 export const getAuthenticatedAdmin: RequestHandler = async (req, res, next) => {
     try{
@@ -53,6 +55,8 @@ export const  signUp : RequestHandler<unknown, unknown, SignUpBody, unknown> = a
         });
 
         req.session.userSessionId = newAdmin._id;
+
+        sendNotificationToAdmin("New techer joined EVENT MASTER",`${newAdmin.name} is an administrator now.`)
 
         res.status(201).json(newAdmin);
 
@@ -116,30 +120,11 @@ export const sendNotification: RequestHandler<unknown, unknown, NotificationBody
     const bodyRaw = req.body.body;
 
     try {
-
         if(!titleRaw || !bodyRaw) {
             throw createHttpError(400, "Parameters missing.");
         }
-        
-        const topic = 'news';
-
-        const message = {
-        data: {
-            title: titleRaw,
-            body: bodyRaw
-        },
-        topic: topic
-        };
-
-        admin.messaging().send(message)
-  .then((response) => {
-    console.log('Successfully sent message:', response);
-  })
-  .catch((error) => {
-    console.log('Error sending message:', error);
-  });
+        sendNotificationToStudent(titleRaw,bodyRaw)
         res.sendStatus(200)
-
     }catch(error){
         next(error);
     }
@@ -239,7 +224,6 @@ export const forgetAdminPassword: RequestHandler<unknown, unknown, ForgetAdminPa
     }
 
 }
-
 
 interface ResetAdminPasswordBody{
     email: string,

@@ -8,6 +8,10 @@ import StudentModel from '../models/student';
 import AdminModel from '../models/admin';
 import { assertIsDefined } from '../util/assertIsDefined';
 import path from 'path';
+import { sendNotificationToAdmin } from '../util/sendNotificationToAdmin';
+import { sendNotificationToStudent } from '../util/sendNotificationToStudent';
+import { sendNotificationToUser } from '../util/sendNotificationToUser';
+
 
 export const getAllEvents: RequestHandler = async (req, res, next) => {
     const authenticatedUserId = req.session.userSessionId;
@@ -169,6 +173,7 @@ export const createEventByAdmin: RequestHandler<CreateEventParams, unknown, Crea
         admin.events_created.push({ event: newEvent._id, present: false });
         console.log(admin)
         await admin.save()
+        sendNotificationToUser("New event organised",newEvent.title)
         res.status(200).json(newEvent);
     }catch(error){
         next(error);
@@ -230,6 +235,8 @@ export const updateEventByAdmin: RequestHandler<UpdateEventParams, unknown, Upda
 
         const updatedEvent = await event.save();
 
+        sendNotificationToUser("Event details updated...",updatedEvent.title)
+
         res.status(200).json(updatedEvent);
 
     }catch(error){
@@ -253,6 +260,9 @@ export const deleteEventByAdmin: RequestHandler = async(req, res, next) => {
             throw createHttpError(401,"You cannot access this event.");
         }
         await event.remove();
+
+        sendNotificationToUser("Event deleted...",event.title)
+
         res.sendStatus(204);
     }catch(error){
         next(error);
@@ -387,7 +397,7 @@ export const getEventCertificate: RequestHandler<unknown, unknown, CertificateFo
             const filePath = `./certificates/${filename}`;
             doc.pipe(fs.createWriteStream(filePath));
             doc.end();
-  
+            
             // Return the PDF to the client
             res.setHeader('Content-Type', 'application/pdf');
             res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);

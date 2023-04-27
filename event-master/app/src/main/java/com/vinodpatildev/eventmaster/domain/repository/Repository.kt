@@ -23,6 +23,7 @@ interface Repository {
     suspend fun updatePasswordStudent(cookies:String, studentId:String, oldPassword:String, newPassword:String ) : Resource<Boolean>
     suspend fun updatePasswordAdmin(cookies:String, adminId:String, oldPassword:String, newPassword:String ) : Resource<Boolean>
     suspend fun registerForEventStudent(cookies:String, studentId:String, eventId:String):Resource<Boolean>
+    suspend fun markAttendanceForEventStudent(cookies:String, studentId:String, eventId:String):Resource<Boolean>
     suspend fun downloadEventCertificateStudent(context: Context, cookies:String, studentId:String, eventId:String) : Resource<String>
     suspend fun getEventsRegisteredStudent(cookiesData: String, studentId: String) : Resource<List<Event>>
     suspend fun reloadEventsRegisteredStudent(cookiesData: String, studentId: String) : Resource<List<Event>>

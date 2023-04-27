@@ -95,6 +95,14 @@ class RemoteDataSourceImpl(private val apiService: ApiService): RemoteDataSource
         return apiService.registerForEventStudent(cookies,RegisterEventStudentRequest(studentId, eventId))
     }
 
+    override suspend fun markAttendanceForEventStudent(
+        cookies: String,
+        studentId: String,
+        eventId: String
+    ): Response<Void> {
+        return apiService.markAttendanceForEventStudent(cookies,RegisterEventStudentRequest(studentId, eventId))
+    }
+
     override suspend fun downloadEventCertificateStudent(
         cookies: String,
         studentId: String,

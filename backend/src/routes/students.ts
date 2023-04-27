@@ -23,6 +23,8 @@ router.post("/reset", StudentController.resetStudentPassword);
 
 router.post("/register", StudentController.registerStudentForEvent);
 
+router.post("/mark", StudentController.markAttendanceStudentForEvent);
+
 router.post("/updateProfilePicture", StudentController.updateStudentProfilePicture);
 
 

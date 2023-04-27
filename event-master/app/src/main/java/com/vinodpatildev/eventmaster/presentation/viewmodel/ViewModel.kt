@@ -10,6 +10,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.messaging.FirebaseMessaging
 import com.vinodpatildev.eventmaster.data.model.*
 import com.vinodpatildev.eventmaster.data.util.Resource
 import com.vinodpatildev.eventmaster.domain.usecases.*
@@ -34,6 +35,7 @@ class ViewModel(
     private val forgetPasswordStudentUseCase: ForgetPasswordStudentUseCase,
     private val resetPasswordStudentUseCase: ResetPasswordStudentUseCase,
     private val registerEventStudentUseCase: RegisterEventStudentUseCase,
+    private val markAttendanceEventStudentUseCase : MarkAttendanceEventStudentUseCase,
     private val downloadEventCertificateStudentUseCase: DownloadEventCertificateStudentUseCase,
     private val getEventsRegisteredStudentUseCase: GetEventsRegisteredStudentUseCase,
     private val reloadEventsRegisteredStudentUseCase: ReloadEventsRegisteredStudentUseCase,
@@ -81,6 +83,7 @@ class ViewModel(
     val resetPasswordResultStudent:MutableLiveData<Resource<Boolean>> = MutableLiveData()
 
     val registerEventResultStudent:MutableLiveData<Resource<Boolean>> = MutableLiveData()
+    val markAttendanceEventResultStudent:MutableLiveData<Resource<Boolean>> = MutableLiveData()
     val downloadEventCertificateResultStudent : MutableLiveData<Resource<String>> = MutableLiveData()
     var geofenceEventMonitoring : Boolean = false
     val geofenceEventMonitoringLiveData : MutableLiveData<Boolean> = MutableLiveData(false)
@@ -378,6 +381,19 @@ class ViewModel(
             registerEventResultStudent.postValue(Resource.Error(e.message.toString()))
         }
     }
+    fun markAttendanceEventStudent(eventId:String) = viewModelScope.launch(Dispatchers.IO) {
+        markAttendanceEventResultStudent.postValue(Resource.Loading())
+        try {
+            if(isNetworkAvailable(app)){
+                val apiResult = studentData?.let { markAttendanceEventStudentUseCase.execute(cookiesData!!, it._id, eventId) }
+                markAttendanceEventResultStudent.postValue(apiResult!!)
+            }else{
+                markAttendanceEventResultStudent.postValue(Resource.Error("Internet is not available."))
+            }
+        }catch (e:Exception){
+            markAttendanceEventResultStudent.postValue(Resource.Error(e.message.toString()))
+        }
+    }
 
     fun downloadEventCertificateStudent(context:Context, eventId:String) = viewModelScope.launch(Dispatchers.IO) {
         downloadEventCertificateResultStudent.postValue(Resource.Loading())
@@ -425,9 +441,19 @@ class ViewModel(
 
     fun onAuthCompletedSaveToDatastore(cookies:String, isUserLoggedIn:Boolean, userType:String, userId:String, username: String, email: String, password: String, name:String, registration_no:String, dob:String, mobile_no:String, year:String, department:String, division:String, passing_year:String,profile_image_url:String) = viewModelScope.launch {
         preferencesManager.updateUserStudentData(cookies,true,userType, userId, username, email, password, name, registration_no, dob, mobile_no, year, department, division, passing_year,profile_image_url)
+        FirebaseMessaging.getInstance().subscribeToTopic("event_master_notifications_user")
+        if(user=="admin"){
+            FirebaseMessaging.getInstance().subscribeToTopic("event_master_notifications_admin")
+        }else {
+            FirebaseMessaging.getInstance().subscribeToTopic("event_master_notifications_student")
+        }
     }
+
     fun onAuthSignOutSaveToDatastore() = viewModelScope.launch {
         preferencesManager.updateUserStudentData("",false,"","","","","","","","","","","","","","")
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("event_master_notifications_user")
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("event_master_notifications_student")
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("event_master_notifications_admin")
     }
     fun onModified() = viewModelScope.launch {
         val key = System.currentTimeMillis().toString()
