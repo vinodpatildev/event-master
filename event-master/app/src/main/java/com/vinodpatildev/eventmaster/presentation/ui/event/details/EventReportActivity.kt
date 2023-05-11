@@ -48,6 +48,7 @@ class EventReportActivity : AppCompatActivity() {
             tvEventReportFieldIdValue.text = clickedEvent._id
             tvEventReportFieldTitleValue.text = clickedEvent.title
             tvEventReprtFieldStatusValue.text = clickedEvent.state
+            tvEventReportFieldDescriptionValue.text = clickedEvent.description
         }
         viewModel.getEventReportAdmin(clickedEvent._id)
         binding?.rvRegisteredCreatedEventList?.layoutManager = LinearLayoutManager(this)

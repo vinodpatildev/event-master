@@ -37,7 +37,13 @@ async function transitionEvents() {
         const now = moment();
 
         for (const event of upcomingEvents) {
+            // console.log("processing upcoming a events : " + event.title)
+            // console.log(event.start)
+            // console.log(now)
+            // console.log(moment(event.start).isBefore(now))
+
             if (moment(event.start).isSameOrBefore(now)) {
+                console.log(" success ")
                 event.state = EventState.LIVE;
                 await event.save();
                 sendNotificationToUser("Event is live.....",`The event ${event.title} is live, attend it. Don't forget to mark your attendance using geofence`)
@@ -45,6 +51,7 @@ async function transitionEvents() {
         }
 
         for (const event of liveEvents) {
+            console.log("processing live a events.")
             if (moment(event.end).isSameOrBefore(now)) {
                 event.state = EventState.FINISHED;
                 await event.save();
@@ -53,6 +60,7 @@ async function transitionEvents() {
         }
 
         // for (const event of finishedEvents) {
+        //     console.log("processing finished a events.")
         //     if (moment(event.end).isAfter(now)) {
         //         event.state = EventState.LIVE;
         //         await event.save();

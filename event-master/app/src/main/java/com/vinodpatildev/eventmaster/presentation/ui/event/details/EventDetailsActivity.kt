@@ -103,11 +103,9 @@ class EventDetailsActivity : AppCompatActivity() {
                         //attend the event
                         // TODO : Mark attendance using geofence
 
-//                        val geofenceActivityIntent = Intent(this,GeofenceActivity::class.java)
-//                        geofenceActivityIntent.putExtra(Event.TAG,clickedEvent)
-//                        startActivity(geofenceActivityIntent)
-
-                        viewModel.markAttendanceEventStudent(clickedEvent._id)
+                        val geofenceActivityIntent = Intent(this,GeofenceActivity::class.java)
+                        geofenceActivityIntent.putExtra(Event.TAG,clickedEvent)
+                        startActivity(geofenceActivityIntent)
                     }else if(clickedEvent.state == Event.FINISHED){
                         viewModel.downloadEventCertificateStudent(this,clickedEvent._id)
                     }
@@ -116,24 +114,6 @@ class EventDetailsActivity : AppCompatActivity() {
                     if(clickedEvent.state == Event.LIVE){
                         binding.btnRegisterAttendDownloadCertificateEvent.text = "MARK ATTENDANCE"
                         // TODO : Mark attendance using geofence
-                        viewModel.markAttendanceEventResultStudent.observe(this@EventDetailsActivity, Observer { response ->
-                            when(response){
-                                is Resource.Success -> {
-                                    progressDialog.hide()
-//                              binding.btnRegisterForEvent.setEnabled(false)
-                                }
-                                is Resource.Loading -> {
-                                    progressDialog.show()
-                                }
-                                is Resource.Error -> {
-                                    progressDialog.hide()
-                                    response.message?.let{
-                                        Snackbar.make(binding.root,"Error Occured:$it", Snackbar.LENGTH_LONG).show()
-                                    }
-                                }
-                            }
-                        })
-
                     }else if(clickedEvent.state == Event.FINISHED){
                         binding.btnRegisterAttendDownloadCertificateEvent.text = "DOWNLOAD CERTIFICATE"
                         viewModel.downloadEventCertificateResultStudent.observe(this@EventDetailsActivity, Observer { response ->

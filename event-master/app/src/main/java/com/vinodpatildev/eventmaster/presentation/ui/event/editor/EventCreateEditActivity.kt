@@ -174,8 +174,13 @@ class EventCreateEditActivity : AppCompatActivity() {
                                 cal.set(Calendar.MINUTE, minute)
 
                                 // Format date and time as per requirement
-                                val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+                                val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())
                                 val formattedDateTime = dateFormat.format(cal.time)
+
+//                                val timeZone = TimeZone.getTimeZone("Asia/Kolkata")
+//                                val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())
+//                                dateFormat.timeZone = timeZone
+//                                val formattedDateTime = dateFormat.format(cal.time)
 
                                 // Set formatted date and time to edit text
                                 binding.etStartDatetime.setText(formattedDateTime)
@@ -210,8 +215,13 @@ class EventCreateEditActivity : AppCompatActivity() {
                                 cal.set(Calendar.MINUTE, minute)
 
                                 // Format date and time as per requirement
-                                val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+                                val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())
                                 val formattedDateTime = dateFormat.format(cal.time)
+
+//                                val timeZone = TimeZone.getTimeZone("Asia/Kolkata")
+//                                val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+//                                dateFormat.timeZone = timeZone
+//                                val formattedDateTime = dateFormat.format(cal.time)
 
                                 // Set formatted date and time to edit text
                                 binding.etEndDatetime.setText(formattedDateTime)
@@ -324,7 +334,6 @@ class EventCreateEditActivity : AppCompatActivity() {
         mLocationRequest.interval = 1000
         mLocationRequest.numUpdates = 1
         mFusedLocationProviderClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper())
-
     }
 
     private val mLocationCallback = object : LocationCallback(){

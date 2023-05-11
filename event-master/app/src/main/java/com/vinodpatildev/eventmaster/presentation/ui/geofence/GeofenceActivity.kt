@@ -3,12 +3,14 @@ package com.vinodpatildev.eventmaster.presentation.ui.geofence
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.PendingIntent
+import android.app.ProgressDialog
 import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.provider.Settings
 import android.util.Log
 import android.view.View
@@ -18,6 +20,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.gms.location.*
@@ -33,7 +36,9 @@ import com.skyfishjy.library.RippleBackground
 import com.vinodpatildev.eventmaster.R
 import com.vinodpatildev.eventmaster.data.model.Event
 import com.vinodpatildev.eventmaster.data.util.Constants
+import com.vinodpatildev.eventmaster.data.util.Resource
 import com.vinodpatildev.eventmaster.databinding.ActivityGeofenceBinding
+import com.vinodpatildev.eventmaster.presentation.ui.auth.SignInActivity
 import com.vinodpatildev.eventmaster.presentation.viewmodel.ViewModel
 import com.vinodpatildev.eventmaster.presentation.viewmodel.ViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,6 +47,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class GeofenceActivity : AppCompatActivity() {
+    private var TIME_OUT:Long = 3000
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     lateinit var viewModel: ViewModel
@@ -53,6 +59,7 @@ class GeofenceActivity : AppCompatActivity() {
         val intent = Intent(this, GeofenceBroadCastReceiver::class.java)
         PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
+    private lateinit var progressDialog: ProgressDialog
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             when(intent?.action){
@@ -79,7 +86,7 @@ class GeofenceActivity : AppCompatActivity() {
 
                     binding.rippleBackgroundGeofenceActive.visibility = View.GONE
                     binding.rippleBackgroundGeofenceActive.stopRippleAnimation()
-                    finish()
+                    viewModel.markAttendanceEventStudent(clickedEvent._id)
                     Snackbar.make(binding.root,"Successfully attended the event : ${clickedEvent.title}",Snackbar.LENGTH_LONG).show()
                 }
             }
@@ -92,6 +99,9 @@ class GeofenceActivity : AppCompatActivity() {
         setContentView(binding.root)
         viewModel = ViewModelProvider(this, viewModelFactory).get(ViewModel::class.java)
         supportActionBar?.hide()
+        progressDialog = ProgressDialog(this)
+        progressDialog.setMessage("Marking attendance....")
+        progressDialog.setCancelable(false)
         clickedEvent = intent.getSerializableExtra(Event.TAG) as Event
 
         geofencingClient = LocationServices.getGeofencingClient(this)
@@ -114,6 +124,24 @@ class GeofenceActivity : AppCompatActivity() {
                 removeGeofence()
             }
         }
+        viewModel.markAttendanceEventResultStudent.observe(this@GeofenceActivity, Observer { response ->
+            when(response){
+                is Resource.Success -> {
+                    progressDialog.hide()
+                    removeGeofence()
+                }
+                is Resource.Loading -> {
+                    progressDialog.show()
+                }
+                is Resource.Error -> {
+                    progressDialog.hide()
+                    response.message?.let{
+                        Snackbar.make(binding.root,"Error Occured:$it", Snackbar.LENGTH_LONG).show()
+                    }
+                    removeGeofence()
+                }
+            }
+        })
     }
 
     private fun addGeofence() {
@@ -196,6 +224,10 @@ class GeofenceActivity : AppCompatActivity() {
                                         viewModel.geofenceEventMonitoring = false
                                         binding.rippleBackgroundGeofenceActive.visibility = View.GONE
                                         binding.rippleBackgroundGeofenceActive.stopRippleAnimation()
+
+                                        Handler().postDelayed({
+                                            finish()
+                                        },TIME_OUT)
                                     })
                                     ?.addOnFailureListener(this@GeofenceActivity, OnFailureListener {
                                         Snackbar.make(binding.root,"Geofencing could not be removed",Snackbar.LENGTH_LONG).show()
